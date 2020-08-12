@@ -23,7 +23,7 @@ end
 
 local ignore_uri = {
     kail_cn = "," ..
-            --"/v1.0/auction/soa/checkReport," ..
+            --"/," ..
             "",
 }
 
@@ -69,22 +69,22 @@ local pattern = "(" .. phone .. "|" .. vin .. "|" .. license .. ")"
 ngx.ctx.buffered = (ngx.ctx.buffered or "") .. ngx.arg[1];
 
 if ngx.arg[2] then
-if ngx.re.match(ngx.ctx.buffered, pattern) then
-file = io.open("/tmp/" .. ngx.var.host .. "_" .. os.date("%Y-%m-%d_%H") .. ".log", "a+");
-local content = "<" .. ngx.var.time_local .. "> " -- 时间
-.. "<" .. ngx.var.request_uri .. "> " -- request_uri
---.. "<" .. ngx.ctx.buffered .. ">"     -- 响应信息
-.. "<" .. string.gsub(ngx.ctx.buffered, "\n", "\\n") .. ">" -- 响应信息
-.. "<" .. phone .. "> "
-.. "<" .. vin .. "> "
-.. "<" .. license .. "> "
-.. "<" .. pattern .. "> "
-.. "<" .. content_type .. "> "
-.. "\n"
-file:write(content);
-file:close();
+    if ngx.re.match(ngx.ctx.buffered, pattern) then
+        file = io.open("/tmp/" .. ngx.var.host .. "_" .. os.date("%Y-%m-%d_%H") .. ".log", "a+");
+        local content = "<" .. ngx.var.time_local .. "> " -- 时间
+                .. "<" .. ngx.var.request_uri .. "> " -- request_uri
+                --.. "<" .. ngx.ctx.buffered .. ">"     -- 响应信息
+                .. "<" .. string.gsub(ngx.ctx.buffered, "\n", "\\n") .. ">" -- 响应信息
+                .. "<" .. phone .. "> "
+                .. "<" .. vin .. "> "
+                .. "<" .. license .. "> "
+                .. "<" .. pattern .. "> "
+                .. "<" .. content_type .. "> "
+                .. "\n"
+        file:write(content);
+        file:close();
 
--- ngx.arg[1] = "\n\n\n 疑似敏感信息，页面被禁用 " .. parrern
+        -- ngx.arg[1] = "\n\n\n 疑似敏感信息，页面被禁用 " .. parrern
 
-end
+    end
 end
