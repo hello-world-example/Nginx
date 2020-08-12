@@ -70,7 +70,8 @@ if ngx.arg[2] then
     if sensitive then
         -- 忽略的关键字
         local ignore_keys = {
-            "SYSTEM", "ALPINA", "ARCFOX"
+            "SYSTEM",
+            "ALPINA", "ARCFOX"
         }
         -- 查看匹配出来的内容是否包含关键字
         for i, key in pairs(ignore_keys) do
