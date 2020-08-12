@@ -9,8 +9,6 @@
 --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- ------ --- --- --- --- --- --- ---
 
 local ignore_hosts = "," ..
-        --"pubapi.kail.cn," ..
-        --"m.kail.cn," ..
         ""
 
 if ignore_hosts == nil or not (nil == string.match(ignore_hosts, "," .. ngx.var.host .. ",")) then
@@ -36,14 +34,13 @@ end
 --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- ------ --- --- --- --- --- --- ---
 --- ngx.resp.get_headers()["content-type"] 过滤
 --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- ------ --- --- --- --- --- --- ---
--- 注意前面有个空格
-local ignore_content_type = "" ..
-        --" text/plain" ..
-        --" application/json" ..
-        ""
+local ignore_content_type = "(" ..
+        --" text/plain|" ..
+        --" application/json|" ..
+        ")"
 
 local content_type = ngx.resp.get_headers()["content-type"]
-if not (content_type == nil) and not (nil == string.match(ignore_content_type, " " .. content_type)) then
+if not (content_type == nil) and ngx.re.match(" " .. content_type, ignore_content_type) then
     return
 end
 
@@ -69,7 +66,20 @@ local pattern = "(" .. phone .. "|" .. vin .. "|" .. license .. ")"
 ngx.ctx.buffered = (ngx.ctx.buffered or "") .. ngx.arg[1];
 
 if ngx.arg[2] then
-    if ngx.re.match(ngx.ctx.buffered, pattern) then
+    local sensitive = ngx.re.match(ngx.ctx.buffered, pattern)
+    if sensitive then
+        -- 忽略的关键字
+        local ignore_keys = {
+            "SYSTEM", "ALPINA", "ARCFOX"
+        }
+        -- 查看匹配出来的内容是否包含关键字
+        for i, key in pairs(ignore_keys) do
+            if string.match(sensitive[0], key) then
+                -- 如果包含，不属于敏感数据，直接结束
+                return
+            end
+        end
+
         file = io.open("/tmp/" .. ngx.var.host .. "_" .. os.date("%Y-%m-%d_%H") .. ".log", "a+");
         local content = "<" .. ngx.var.time_local .. "> " -- 时间
                 .. "<" .. ngx.var.request_uri .. "> " -- request_uri
@@ -80,6 +90,7 @@ if ngx.arg[2] then
                 .. "<" .. license .. "> "
                 .. "<" .. pattern .. "> "
                 .. "<" .. content_type .. "> "
+                .. "<" .. sensitive[0] .. "> "
                 .. "\n"
         file:write(content);
         file:close();
