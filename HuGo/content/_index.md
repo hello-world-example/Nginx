@@ -1,41 +1,32 @@
 ---
-title: Introduction
+title: Nginx
 type: docs
 ---
 
-# Acerbo datus maxime
-
-{{< columns >}}
-## Astris ipse furtiva
-
-Est in vagis et Pittheus tu arge accipiter regia iram vocatur nurus. Omnes ut
-olivae sensit **arma sorori** deducit, inesset **crudus**, ego vetuere aliis,
-modo arsit? Utinam rapta fiducia valuere litora _adicit cursu_, ad facies
-
-<--->
-
-## Suis quot vota
-
-Ea _furtique_ risere fratres edidit terrae magis. Colla tam mihi tenebat:
-miseram excita suadent es pecudes iam. Concilio _quam_ velatus posset ait quod
-nunc! Fragosis suae dextra geruntur functus vulgata.
-{{< /columns >}}
 
 
-## Tempora nisi nunc
+## Nginx
 
-Lorem **markdownum** emicat gestu. Cannis sol pressit ducta. **Est** Idaei,
-tremens ausim se tutaeque, illi ulnis hausit, sed, lumina cutem. Quae avis
-sequens!
+- http://nginx.org/
+  - [directives](http://nginx.org/en/docs/dirindex.html)
+  - [variables](http://nginx.org/en/docs/varindex.html)
+- 
 
-    var panel = ram_design;
-    if (backup + system) {
-        file.readPoint = network_native;
-        sidebar_engine_device(cell_tftp_raster,
-                dual_login_paper.adf_vci.application_reader_design(
-                graphicsNvramCdma, lpi_footer_snmp, integer_model));
-    }
 
-## Locis suis novi cum suoque decidit eadem
 
-Idmoniae ripis, at aves, ali missa adest, ut _et autem_, et ab?
+## OpenResty
+
+- http://openresty.org/cn/
+- [`ngx_http_lua_module`] [openresty / lua-nginx-module](https://github.com/openresty/lua-nginx-module) > [README.markdown](https://github.com/openresty/lua-nginx-module/blob/master/README.markdown)
+  - [Nginx API for Lua](https://github.com/openresty/lua-nginx-module#nginx-api-for-lua)
+  - [Directives](https://github.com/openresty/lua-nginx-module#directives) 指令
+- [openresty/echo-nginx-module](https://github.com/openresty/echo-nginx-module)
+
+
+
+## 社区资料
+
+- [agentzh 的 Nginx 教程（版本 2020.03.19）](https://openresty.org/download/agentzh-nginx-tutorials-zhcn.html)
+  - Nginx 变量漫谈
+  - Nginx 配置指令的执行顺序
+- [OpenResty 专题](https://www.cnblogs.com/jimodetiantang/tag/OpenResty/)
