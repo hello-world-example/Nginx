@@ -11,7 +11,7 @@
 local ignore_hosts = "," ..
         ""
 
-if ignore_hosts == nil or not (nil == string.match(ignore_hosts, "," .. ngx.var.host .. ",")) then
+if ignore_hosts == nil or not (nil == ngx.re.match(ignore_hosts, "," .. ngx.var.host .. ",")) then
     return
 end
 
@@ -25,9 +25,9 @@ local ignore_uri = {
             "",
 }
 
-local host_key = string.gsub(ngx.var.host, "%.", "_")
+local host_key = ngx.re.gsub(ngx.var.host, "%.", "_")
 local host_uri = ignore_uri[host_key]
-if not (nil == host_uri) and not (nil == string.match(host_uri, "," .. ngx.var.uri .. ",")) then
+if not (nil == host_uri) and not (nil == ngx.re.match(host_uri, "," .. ngx.var.uri .. ",")) then
     return
 end
 
@@ -52,11 +52,18 @@ end
 local phone = "(\\D1[3-9]\\d{9}\\D)"
 
 -- ✔️✔️✔️✔️✔️ VIN （ data-id="xxx ）（ 大写字母加数字，两端 非字母、数字、空白、/、- ）
-local vin = "([^=][^A-Za-z\\s\\d/-—][A-Z\\d]{17}[^A-Za-z\\s\\d/-])"
+local vin = "([^=][^A-Za-z\\d/\\-—][A-Z\\d]{17}[^A-Za-z\\d/\\-])"
 
--- ✔️✔️✔️✔️✔️ 车牌号  大写字母加数字，两端 非字母、数字、空白、/、-、款
-local license = "([^A-Za-z\\s\\d/-座][A-Z][A-Z\\d]{5,6}[^A-Za-z\\s\\d/-款])"
+-- ✔️✔️✔️✔️✔️ 车牌号 （ data-id="xxx ）( 大写字母加数字，两端 非字母、数字、空白、/、-、款 )
+local license = "([^=][^A-Za-z\\d/\\-座][A-Z][A-Z\\d]{5,6}[^A-Za-z\\d/\\-款])"
 
+-- 忽略的关键字
+local ignore_keys = "("
+        .. "SYSTEM|SUCCESS|"
+        .. "ALPINA|ARCFOX|YAMAHA|MELKUS|SPIRRA|LUXGEN|RENOVO|RIVIAN|SHELBY|" -- brandName
+        .. "INSIGHT" -- falilyName
+        .. ")"
+}
 
 -- 同时拼配 手机号、VIN、车牌号
 local pattern = "(" .. phone .. "|" .. vin .. "|" .. license .. ")"
@@ -66,29 +73,17 @@ local pattern = "(" .. phone .. "|" .. vin .. "|" .. license .. ")"
 ngx.ctx.buffered = (ngx.ctx.buffered or "") .. ngx.arg[1];
 
 if ngx.arg[2] then
-    local sensitive = ngx.re.match(ngx.ctx.buffered, pattern)
+    -- 删除关键字
+    local marchString = ngx.re.gsub(ngx.ctx.buffered, ignore_keys, "")
+    -- 删除关键字后仍然能匹配到
+    local sensitive = ngx.re.match(marchString, pattern)
     if sensitive then
-        -- 忽略的关键字
-        local ignore_keys = {
-            "SYSTEM",
-            "ALPINA", "ARCFOX"
-        }
-        -- 查看匹配出来的内容是否包含关键字
-        for i, key in pairs(ignore_keys) do
-            if string.match(sensitive[0], key) then
-                -- 如果包含，不属于敏感数据，直接结束
-                return
-            end
-        end
-
         file = io.open("/tmp/" .. ngx.var.host .. "_" .. os.date("%Y-%m-%d_%H") .. ".log", "a+");
         local content = "<" .. ngx.var.time_local .. "> " -- 时间
-                .. "<" .. ngx.var.request_uri .. "> " -- request_uri
-                --.. "<" .. ngx.ctx.buffered .. ">"     -- 响应信息
-                .. "<" .. string.gsub(ngx.ctx.buffered, "\n", "\\n") .. ">" -- 响应信息
-                .. "<" .. phone .. "> "
-                .. "<" .. vin .. "> "
-                .. "<" .. license .. "> "
+                .. "<" .. ngx.var.request_method .. "> " -- 请求方式
+                .. "<" .. ngx.var.host .. "> " -- 域名
+                .. "<" .. ngx.var.request_uri .. "> " -- request_uri 带参数
+                .. "<" .. ngx.re.gsub(ngx.ctx.buffered, "\n", "\\n") .. ">" -- 响应信息
                 .. "<" .. pattern .. "> "
                 .. "<" .. content_type .. "> "
                 .. "<" .. sensitive[0] .. "> "
