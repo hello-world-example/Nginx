@@ -2,22 +2,20 @@
 <html lang="en">
 
 <head>
-	<meta name="generator" content="Hugo 0.65.3" />
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="Nginx  http://nginx.org/   directives  variables     OpenResty  http://openresty.org/cn/ [ngx_http_lua_module] openresty / lua-nginx-module &gt; README.markdown   Nginx API for Lua  Directives 指令    openresty/echo-nginx-module  社区资料   agentzh 的 Nginx 教程（版本 2020.03.19）  Nginx 变量漫谈 Nginx 配置指令的执行顺序    OpenResty 专题  "><meta property="og:title" content="Nginx" />
-<meta property="og:description" content="" />
-<meta property="og:type" content="website" />
-<meta property="og:url" content="https://hello-world-example.github.io/Nginx/" />
-
-<title>Nginx | Nginx</title>
+<meta name="description" content="Tips 安装的模块 $ ./nginx/sbin/nginx -V ... built by gcc 4.8.5 20150623 (Red Hat 4.8.5-4) (GCC) built with OpenSSL 1.0.2h 3 May 2016 TLS SNI support enabled configure arguments: --prefix=/usr/local/openresty/nginx --add-module=../ngx_devel_kit-0.3.0 ... --with-openssl=/tmp/openssl-1.0.2h --with-pcre=/tmp/pcre-8.39 ... --with-stream ... "><meta property="og:title" content="" />
+<meta property="og:description" content="Tips 安装的模块 $ ./nginx/sbin/nginx -V ... built by gcc 4.8.5 20150623 (Red Hat 4.8.5-4) (GCC) built with OpenSSL 1.0.2h 3 May 2016 TLS SNI support enabled configure arguments: --prefix=/usr/local/openresty/nginx --add-module=../ngx_devel_kit-0.3.0 ... --with-openssl=/tmp/openssl-1.0.2h --with-pcre=/tmp/pcre-8.39 ... --with-stream ... " />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://hello-world-example.github.io/Nginx/docs/Nginx/Tips/" />
+<meta property="article:modified_time" content="2020-08-12T15:10:24+08:00" />
+<title>Tips | Nginx</title>
 <link rel="icon" href="/Nginx/favicon.png" type="image/x-icon">
 
 
 <link rel="stylesheet" href="/Nginx/book.min.d436f463c9471cfab26a8b71cd2f50b6abf5225806391453da4ca111d1834fef.css" integrity="sha256-1Db0Y8lHHPqyaotxzS9Qtqv1IlgGORRT2kyhEdGDT&#43;8=">
 
 
-<link rel="alternate" type="application/rss+xml" href="https://hello-world-example.github.io/Nginx/index.xml" title="Nginx" />
 <!--
 Made with Book Theme
 https://github.com/alex-shpak/hugo-book
@@ -53,7 +51,7 @@ https://github.com/alex-shpak/hugo-book
 <p><strong>Nginx</strong></p>
 <ul>
 <li>
-  <a href="/Nginx/docs/Nginx/Tips/">Tips</a></li>
+  <a href="/Nginx/docs/Nginx/Tips/"class=active>Tips</a></li>
 </ul>
 </li>
 <li>
@@ -97,7 +95,7 @@ https://github.com/alex-shpak/hugo-book
     <img src="/Nginx/svg/menu.svg" class="book-icon" alt="Menu" />
   </label>
 
-  <strong>Nginx</strong>
+  <strong>Tips</strong>
 
   <label for="toc-control">
     <img src="/Nginx/svg/toc.svg" class="book-icon" alt="Table of Contents" />
@@ -111,11 +109,9 @@ https://github.com/alex-shpak/hugo-book
       
   <nav id="TableOfContents">
   <ul>
-    <li>
+    <li><a href="#tips">Tips</a>
       <ul>
-        <li><a href="#nginx">Nginx</a></li>
-        <li><a href="#openresty">OpenResty</a></li>
-        <li><a href="#社区资料">社区资料</a></li>
+        <li><a href="#安装的模块">安装的模块</a></li>
       </ul>
     </li>
   </ul>
@@ -129,47 +125,23 @@ https://github.com/alex-shpak/hugo-book
 
       
       
-  <article class="markdown"><h2 id="nginx">Nginx</h2>
-<ul>
-<li><a href="http://nginx.org/">http://nginx.org/</a>
-<ul>
-<li>
-  <a href="http://nginx.org/en/docs/dirindex.html">directives</a></li>
-<li>
-  <a href="http://nginx.org/en/docs/varindex.html">variables</a></li>
-</ul>
-</li>
-<li></li>
-</ul>
-<h2 id="openresty">OpenResty</h2>
-<ul>
-<li><a href="http://openresty.org/cn/">http://openresty.org/cn/</a></li>
-<li>[<code>ngx_http_lua_module</code>] 
-  <a href="https://github.com/openresty/lua-nginx-module">openresty / lua-nginx-module</a> &gt; 
-  <a href="https://github.com/openresty/lua-nginx-module/blob/master/README.markdown">README.markdown</a>
-<ul>
-<li>
-  <a href="https://github.com/openresty/lua-nginx-module#nginx-api-for-lua">Nginx API for Lua</a></li>
-<li>
-  <a href="https://github.com/openresty/lua-nginx-module#directives">Directives</a> 指令</li>
-</ul>
-</li>
-<li>
-  <a href="https://github.com/openresty/echo-nginx-module">openresty/echo-nginx-module</a></li>
-</ul>
-<h2 id="社区资料">社区资料</h2>
-<ul>
-<li>
-  <a href="https://openresty.org/download/agentzh-nginx-tutorials-zhcn.html">agentzh 的 Nginx 教程（版本 2020.03.19）</a>
-<ul>
-<li>Nginx 变量漫谈</li>
-<li>Nginx 配置指令的执行顺序</li>
-</ul>
-</li>
-<li>
-  <a href="https://www.cnblogs.com/jimodetiantang/tag/OpenResty/">OpenResty 专题</a></li>
-</ul>
-</article>
+  <article class="markdown"><h1 id="tips">Tips</h1>
+<h2 id="安装的模块">安装的模块</h2>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ ./nginx/sbin/nginx -V
+...
+built by gcc 4.8.5 <span style="color:#ae81ff">20150623</span> <span style="color:#f92672">(</span>Red Hat 4.8.5-4<span style="color:#f92672">)</span> <span style="color:#f92672">(</span>GCC<span style="color:#f92672">)</span> 
+built with OpenSSL 1.0.2h  <span style="color:#ae81ff">3</span> May <span style="color:#ae81ff">2016</span>
+TLS SNI support enabled
+configure arguments: 
+  --prefix<span style="color:#f92672">=</span>/usr/local/openresty/nginx 
+  --add-module<span style="color:#f92672">=</span>../ngx_devel_kit-0.3.0 
+	...
+  --with-openssl<span style="color:#f92672">=</span>/tmp/openssl-1.0.2h 
+  --with-pcre<span style="color:#f92672">=</span>/tmp/pcre-8.39 
+  ...
+  --with-stream 
+  ...
+</code></pre></div></article>
  
       
 
@@ -190,7 +162,7 @@ https://github.com/alex-shpak/hugo-book
 
 
   <div>
-    <a class="flex align-center" href="https://github.com/hello-world-example/Nginx/edit/master/HuGo/content/_index.md" target="_blank" rel="noopener">
+    <a class="flex align-center" href="https://github.com/hello-world-example/Nginx/edit/master/HuGo/content/docs/Nginx/Tips.md" target="_blank" rel="noopener">
       <img src="/Nginx/svg/edit.svg" class="book-icon" alt="Edit" />
       <span>Edit this page</span>
     </a>
@@ -218,11 +190,9 @@ https://github.com/alex-shpak/hugo-book
       
   <nav id="TableOfContents">
   <ul>
-    <li>
+    <li><a href="#tips">Tips</a>
       <ul>
-        <li><a href="#nginx">Nginx</a></li>
-        <li><a href="#openresty">OpenResty</a></li>
-        <li><a href="#社区资料">社区资料</a></li>
+        <li><a href="#安装的模块">安装的模块</a></li>
       </ul>
     </li>
   </ul>

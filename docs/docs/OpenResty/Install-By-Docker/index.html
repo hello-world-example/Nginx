@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Docker 方式安装 安装 $ docker pull openresty/openresty:1.11.2.1-centos $ docker run -d \ 	-p 80:80 \  --name openresty \  -v /private/docker/volumes/openresty/conf.d:/etc/nginx/conf.d \  -v /private/docker/volumes/openresty/logs:/etc/nginx/logs \  openresty/openresty:1.11.2.1-centos # docker exec -it openresty bash # cd /usr/local/openresty/nginx/ # docker kill openresty # docker rm openresty # docker ps -a | grep openresty /etc/nginx/conf.d/ 进入 /private/docker/volumes/openresty/conf.d 新增 一下两个文件，文件内容是从 nginx.conf 中截取的
+default.conf server { listen 80 default_server reuseport; server_name localhost; #charset koi8-r;  #access_log logs/host."><meta property="og:title" content="" />
+<meta property="og:description" content="Docker 方式安装 安装 $ docker pull openresty/openresty:1.11.2.1-centos $ docker run -d \ 	-p 80:80 \  --name openresty \  -v /private/docker/volumes/openresty/conf.d:/etc/nginx/conf.d \  -v /private/docker/volumes/openresty/logs:/etc/nginx/logs \  openresty/openresty:1.11.2.1-centos # docker exec -it openresty bash # cd /usr/local/openresty/nginx/ # docker kill openresty # docker rm openresty # docker ps -a | grep openresty /etc/nginx/conf.d/ 进入 /private/docker/volumes/openresty/conf.d 新增 一下两个文件，文件内容是从 nginx.conf 中截取的
+default.conf server { listen 80 default_server reuseport; server_name localhost; #charset koi8-r;  #access_log logs/host." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://hello-world-example.github.io/Nginx/docs/OpenResty/Install-By-Docker/" />
+<meta property="article:modified_time" content="2020-08-12T15:10:24+08:00" />
+<title>Install by Docker | Nginx</title>
+<link rel="icon" href="/Nginx/favicon.png" type="image/x-icon">
+
+
+<link rel="stylesheet" href="/Nginx/book.min.d436f463c9471cfab26a8b71cd2f50b6abf5225806391453da4ca111d1834fef.css" integrity="sha256-1Db0Y8lHHPqyaotxzS9Qtqv1IlgGORRT2kyhEdGDT&#43;8=">
+
+
+<!--
+Made with Book Theme
+https://github.com/alex-shpak/hugo-book
+-->
+
+  
+</head>
+
+<body>
+  <input type="checkbox" class="hidden" id="menu-control" />
+  <main class="container flex">
+    <aside class="book-menu">
+      
+  <nav>
+<h2 class="book-brand">
+  <a href="/Nginx"><span>Nginx</span>
+  </a>
+</h2>
+
+
+
+
+
+
+
+
+
+
+
+
+  <ul>
+<li>
+<p><strong>Nginx</strong></p>
+<ul>
+<li>
+  <a href="/Nginx/docs/Nginx/Tips/">Tips</a></li>
+</ul>
+</li>
+<li>
+<p><strong>OpenResty</strong></p>
+<ul>
+<li>
+  <a href="/Nginx/docs/OpenResty/Install-By-Docker/"class=active>Docker 方式安装</a></li>
+<li>
+  <a href="/Nginx/docs/OpenResty/Test-Lua/">Lua 脚本测试</a></li>
+<li>
+  <a href="/Nginx/docs/OpenResty/Tips/">Tips</a></li>
+</ul>
+</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+</nav>
+
+
+
+
+  <script>(function(){var menu=document.querySelector("aside.book-menu nav");addEventListener("beforeunload",function(event){localStorage.setItem("menu.scrollTop",menu.scrollTop);});menu.scrollTop=localStorage.getItem("menu.scrollTop");})();</script>
+
+
+ 
+    </aside>
+
+    <div class="book-page">
+      <header class="book-header">
+        
+  <div class="flex align-center justify-between">
+  <label for="menu-control">
+    <img src="/Nginx/svg/menu.svg" class="book-icon" alt="Menu" />
+  </label>
+
+  <strong>Install by Docker</strong>
+
+  <label for="toc-control">
+    <img src="/Nginx/svg/toc.svg" class="book-icon" alt="Table of Contents" />
+  </label>
+</div>
+
+
+  
+    <input type="checkbox" class="hidden" id="toc-control" />
+    <aside class="hidden clearfix">
+      
+  <nav id="TableOfContents">
+  <ul>
+    <li><a href="#docker-方式安装">Docker 方式安装</a>
+      <ul>
+        <li><a href="#安装">安装</a></li>
+        <li><a href="#etcnginxconfd">/etc/nginx/conf.d/</a>
+          <ul>
+            <li><a href="#defaultconf">default.conf</a></li>
+            <li><a href="#httpsconf">https.conf</a></li>
+            <li><a href="#修改-nginxconf">修改 nginx.conf</a></li>
+          </ul>
+        </li>
+        <li><a href="#etcnginxconfdlocationd">/etc/nginx/conf.d/location.d/</a></li>
+        <li><a href="#read-more">Read More</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+
+
+    </aside>
+  
+ 
+      </header>
+
+      
+      
+  <article class="markdown"><h1 id="docker-方式安装">Docker 方式安装</h1>
+<h2 id="安装">安装</h2>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ docker pull openresty/openresty:1.11.2.1-centos
+
+$ docker run -d <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>	-p 80:80 <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>  --name openresty <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>  -v /private/docker/volumes/openresty/conf.d:/etc/nginx/conf.d <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>  -v /private/docker/volumes/openresty/logs:/etc/nginx/logs <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>  openresty/openresty:1.11.2.1-centos
+  
+
+<span style="color:#75715e"># docker exec -it openresty bash</span>
+<span style="color:#75715e"># cd /usr/local/openresty/nginx/</span>
+
+<span style="color:#75715e"># docker kill openresty</span> 
+<span style="color:#75715e"># docker rm openresty</span>
+<span style="color:#75715e"># docker ps -a | grep openresty</span>
+</code></pre></div><h2 id="etcnginxconfd">/etc/nginx/conf.d/</h2>
+<p>进入 <code>/private/docker/volumes/openresty/conf.d</code> 新增 一下两个文件，文件内容是从 <code>nginx.conf</code> 中截取的</p>
+<h3 id="defaultconf">default.conf</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-nginx" data-lang="nginx"><span style="color:#66d9ef">server</span> {
+
+    <span style="color:#f92672">listen</span>       <span style="color:#ae81ff">80</span> <span style="color:#e6db74">default_server</span> <span style="color:#e6db74">reuseport</span>;
+    <span style="color:#f92672">server_name</span>  <span style="color:#e6db74">localhost</span>;
+
+    <span style="color:#75715e">#charset koi8-r;
+</span><span style="color:#75715e"></span>
+    <span style="color:#75715e">#access_log  logs/host.access.log  main;
+</span><span style="color:#75715e"></span>
+    <span style="color:#f92672">location</span> = <span style="color:#e6db74">/</span> {
+        <span style="color:#f92672">root</span>   <span style="color:#e6db74">html</span>;
+        <span style="color:#f92672">index</span>  <span style="color:#e6db74">index.html</span> <span style="color:#e6db74">index.htm</span>;
+    }
+
+    <span style="color:#75715e">#error_page  404              /404.html;
+</span><span style="color:#75715e"></span>
+    <span style="color:#75715e"># redirect server error pages to the static page /50x.html
+</span><span style="color:#75715e"></span>    <span style="color:#75715e">#
+</span><span style="color:#75715e"></span>    <span style="color:#f92672">error_page</span>   <span style="color:#ae81ff">500</span> <span style="color:#ae81ff">502</span> <span style="color:#ae81ff">503</span> <span style="color:#ae81ff">504</span>  <span style="color:#e6db74">/50x.html</span>;
+    <span style="color:#f92672">location</span> = <span style="color:#e6db74">/50x.html</span> {
+        <span style="color:#f92672">root</span>   <span style="color:#e6db74">html</span>;
+    }
+
+    <span style="color:#75715e"># proxy the PHP scripts to Apache listening on 127.0.0.1:80
+</span><span style="color:#75715e"></span>    <span style="color:#75715e">#
+</span><span style="color:#75715e"></span>    <span style="color:#75715e">#location ~ \.php$ {
+</span><span style="color:#75715e"></span>    <span style="color:#75715e">#    proxy_pass   http://127.0.0.1;
+</span><span style="color:#75715e"></span>    <span style="color:#75715e">#}
+</span><span style="color:#75715e"></span>
+    <span style="color:#75715e"># pass the PHP scripts to FastCGI server listening on 127.0.0.1:9000
+</span><span style="color:#75715e"></span>    <span style="color:#75715e">#
+</span><span style="color:#75715e"></span>    <span style="color:#75715e">#location ~ \.php$ {
+</span><span style="color:#75715e"></span>    <span style="color:#75715e">#    root           html;
+</span><span style="color:#75715e"></span>    <span style="color:#75715e">#    fastcgi_pass   127.0.0.1:9000;
+</span><span style="color:#75715e"></span>    <span style="color:#75715e">#    fastcgi_index  index.php;
+</span><span style="color:#75715e"></span>    <span style="color:#75715e">#    fastcgi_param  SCRIPT_FILENAME  /scripts$fastcgi_script_name;
+</span><span style="color:#75715e"></span>    <span style="color:#75715e">#    include        fastcgi_params;
+</span><span style="color:#75715e"></span>    <span style="color:#75715e">#}
+</span><span style="color:#75715e"></span>
+    <span style="color:#75715e"># deny access to .htaccess files, if Apache&#39;s document root
+</span><span style="color:#75715e"></span>    <span style="color:#75715e"># concurs with nginx&#39;s one
+</span><span style="color:#75715e"></span>    <span style="color:#75715e">#
+</span><span style="color:#75715e"></span>    <span style="color:#75715e">#location ~ /\.ht {
+</span><span style="color:#75715e"></span>    <span style="color:#75715e">#    deny  all;
+</span><span style="color:#75715e"></span>    <span style="color:#75715e">#}
+</span><span style="color:#75715e"></span>
+    <span style="color:#f92672">include</span> <span style="color:#e6db74">/etc/nginx/conf.d/location.d/*.conf</span>;
+}
+
+</code></pre></div><h3 id="httpsconf">https.conf</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-nginx" data-lang="nginx"><span style="color:#75715e"># HTTPS server
+</span><span style="color:#75715e">#
+</span><span style="color:#75715e">#server {
+</span><span style="color:#75715e">#    listen       443 ssl;
+</span><span style="color:#75715e">#    server_name  localhost;
+</span><span style="color:#75715e"></span>
+<span style="color:#75715e">#    ssl_certificate      cert.pem;
+</span><span style="color:#75715e">#    ssl_certificate_key  cert.key;
+</span><span style="color:#75715e"></span>
+<span style="color:#75715e">#    ssl_session_cache    shared:SSL:1m;
+</span><span style="color:#75715e">#    ssl_session_timeout  5m;
+</span><span style="color:#75715e"></span>
+<span style="color:#75715e">#    ssl_ciphers  HIGH:!aNULL:!MD5;
+</span><span style="color:#75715e">#    ssl_prefer_server_ciphers  on;
+</span><span style="color:#75715e"></span>
+<span style="color:#75715e">#    location / {
+</span><span style="color:#75715e">#        root   html;
+</span><span style="color:#75715e">#        index  index.html index.htm;
+</span><span style="color:#75715e">#    }
+</span><span style="color:#75715e">#}
+</span><span style="color:#75715e"></span>
+</code></pre></div><h3 id="修改-nginxconf">修改 nginx.conf</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ docker exec -it openresty bash
+
+$ cd /usr/local/openresty/nginx/
+$ vi conf/nginx.conf
+#  
+<span style="color:#75715e"># 删除所有 server 节点，（在 http 节点下）新增以下 include 语句</span>
+include /etc/nginx/conf.d/*.conf;
+
+
+<span style="color:#75715e"># 校验 配置文件是否出错</span>
+$ ./sbin/nginx -t
+nginx: the configuration file /usr/local/openresty/nginx/conf/nginx.conf syntax is ok
+nginx: configuration file /usr/local/openresty/nginx/conf/nginx.conf test is successful
+
+<span style="color:#75715e"># 重新加载 配置文件</span>
+$ ./sbin/nginx -s reload
+</code></pre></div><h2 id="etcnginxconfdlocationd">/etc/nginx/conf.d/location.d/</h2>
+<ul>
+<li><code>/etc/nginx/conf.d/</code>  下创建 <code>location.d/</code> 文件夹</li>
+<li><code>location.d/</code> 文件夹下 新增 <code>lua_index.conf</code> 文件，内容如下</li>
+<li><code>./sbin/nginx -s reload</code></li>
+<li>curl http://localhost/lua/， 输出 <code>hello, world</code></li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-nginx" data-lang="nginx"><span style="color:#66d9ef">location</span> ~ <span style="color:#e6db74">/lua/</span> {
+  <span style="color:#f92672">default_type</span> <span style="color:#e6db74">text/html</span>;
+  <span style="color:#f92672">content_by_lua_block</span> {
+      <span style="color:#f92672">ngx.say(&#34;&lt;p&gt;hello,</span> <span style="color:#e6db74">world&lt;/p&gt;&#34;)</span>
+  <span style="color:#960050;background-color:#1e0010">}</span>
+<span style="color:#960050;background-color:#1e0010">}</span>
+</code></pre></div><h2 id="read-more">Read More</h2>
+<ul>
+<li>Docker Hub 
+  <a href="https://hub.docker.com/r/openresty/openresty">docker-openresty - Docker tooling for OpenResty</a></li>
+<li>Github 
+  <a href="https://github.com/openresty/docker-openresty">openresty / docker-openresty</a>
+<ul>
+<li><a href="https://github.com/openresty/docker-openresty/tree/1.11.2.1">https://github.com/openresty/docker-openresty/tree/1.11.2.1</a></li>
+</ul>
+</li>
+</ul>
+</article>
+ 
+      
+
+      <footer class="book-footer">
+        
+  <div class="flex justify-between">
+
+
+
+  <div>
+    
+    <a class="flex align-center" href="https://github.com/hello-world-example/Nginx/commit/eeca0d8d8e14b9d38cce15e56a65f106d18b8f95" title='Last modified by kailbin | Aug 12, 2020' target="_blank" rel="noopener">
+      <img src="/Nginx/svg/calendar.svg" class="book-icon" alt="Calendar" />
+      <span>Aug 12, 2020</span>
+    </a>
+  </div>
+
+
+
+  <div>
+    <a class="flex align-center" href="https://github.com/hello-world-example/Nginx/edit/master/HuGo/content/docs/OpenResty/Install-By-Docker.md" target="_blank" rel="noopener">
+      <img src="/Nginx/svg/edit.svg" class="book-icon" alt="Edit" />
+      <span>Edit this page</span>
+    </a>
+  </div>
+
+</div>
+
+ 
+        
+      </footer>
+
+      
+  
+  <div class="book-comments">
+
+</div>
+  
+ 
+
+      <label for="menu-control" class="hidden book-menu-overlay"></label>
+    </div>
+
+    
+    <aside class="book-toc">
+      
+  <nav id="TableOfContents">
+  <ul>
+    <li><a href="#docker-方式安装">Docker 方式安装</a>
+      <ul>
+        <li><a href="#安装">安装</a></li>
+        <li><a href="#etcnginxconfd">/etc/nginx/conf.d/</a>
+          <ul>
+            <li><a href="#defaultconf">default.conf</a></li>
+            <li><a href="#httpsconf">https.conf</a></li>
+            <li><a href="#修改-nginxconf">修改 nginx.conf</a></li>
+          </ul>
+        </li>
+        <li><a href="#etcnginxconfdlocationd">/etc/nginx/conf.d/location.d/</a></li>
+        <li><a href="#read-more">Read More</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+
+ 
+    </aside>
+    
+  </main>
+
+  
+</body>
+
+</html>
+
+
+
+
+
+
+
+
+
+
+
+

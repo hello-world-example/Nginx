@@ -9,5 +9,87 @@
 	<atom:link href="https://hello-world-example.github.io/Nginx/docs/index.xml" rel="self" type="application/rss+xml" />
     
     
+    <item>
+      <title></title>
+      <link>https://hello-world-example.github.io/Nginx/docs/Nginx/ngx_http_core_module/listen/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://hello-world-example.github.io/Nginx/docs/Nginx/ngx_http_core_module/listen/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://hello-world-example.github.io/Nginx/docs/Nginx/ngx_http_core_module/location/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://hello-world-example.github.io/Nginx/docs/Nginx/ngx_http_core_module/location/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://hello-world-example.github.io/Nginx/docs/Nginx/ngx_http_log_module/access_log/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://hello-world-example.github.io/Nginx/docs/Nginx/ngx_http_log_module/access_log/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://hello-world-example.github.io/Nginx/docs/Nginx/ngx_http_proxy_module/proxy_pass/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://hello-world-example.github.io/Nginx/docs/Nginx/ngx_http_proxy_module/proxy_pass/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://hello-world-example.github.io/Nginx/docs/Nginx/ngx_http_upstream_module/upstream/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://hello-world-example.github.io/Nginx/docs/Nginx/ngx_http_upstream_module/upstream/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://hello-world-example.github.io/Nginx/docs/Nginx/Tips/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://hello-world-example.github.io/Nginx/docs/Nginx/Tips/</guid>
+      <description>Tips 安装的模块 $ ./nginx/sbin/nginx -V ... built by gcc 4.8.5 20150623 (Red Hat 4.8.5-4) (GCC) built with OpenSSL 1.0.2h 3 May 2016 TLS SNI support enabled configure arguments: --prefix=/usr/local/openresty/nginx --add-module=../ngx_devel_kit-0.3.0 ... --with-openssl=/tmp/openssl-1.0.2h --with-pcre=/tmp/pcre-8.39 ... --with-stream ... </description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://hello-world-example.github.io/Nginx/docs/OpenResty/Install-By-Docker/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://hello-world-example.github.io/Nginx/docs/OpenResty/Install-By-Docker/</guid>
+      <description>Docker 方式安装 安装 $ docker pull openresty/openresty:1.11.2.1-centos $ docker run -d \ 	-p 80:80 \  --name openresty \  -v /private/docker/volumes/openresty/conf.d:/etc/nginx/conf.d \  -v /private/docker/volumes/openresty/logs:/etc/nginx/logs \  openresty/openresty:1.11.2.1-centos # docker exec -it openresty bash # cd /usr/local/openresty/nginx/ # docker kill openresty # docker rm openresty # docker ps -a | grep openresty /etc/nginx/conf.d/ 进入 /private/docker/volumes/openresty/conf.d 新增 一下两个文件，文件内容是从 nginx.conf 中截取的
+default.conf server { listen 80 default_server reuseport; server_name localhost; #charset koi8-r;  #access_log logs/host.</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://hello-world-example.github.io/Nginx/docs/OpenResty/Test-Lua/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://hello-world-example.github.io/Nginx/docs/OpenResty/Test-Lua/</guid>
+      <description>Lua 脚本测试 print / say  ngx.say 自动添加换行符 ngx.print 没有换行符  location = /test/print { default_type &amp;#39;text/plain&amp;#39;; content_by_lua_block { ngx.print(&amp;#39;Hello,world!&amp;#39;) } } location = /test/say { default_type &amp;#39;text/plain&amp;#39;; content_by_lua_block { ngx.say(&amp;#39;Hello,world!&amp;#39;) } } GET 请求参数 location = /test/params { default_type &amp;#39;text/plain&amp;#39;; # /test/params?a=hello&amp;amp;a=world&amp;amp;a_b=hello world content_by_lua_block { -- 获取第一个参数 ngx.say(ngx.var.args) ngx.say(ngx.var.arg_a) ngx.say(ngx.var.arg_a_b) ngx.say(ngx.unescape_uri(ngx.var.arg_a_b)) ngx.say() -- 获取参数列表 local args, err = ngx.req.get_uri_args() for key, val in pairs(args) do if type(val) == &amp;#34;table&amp;#34; then ngx.</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://hello-world-example.github.io/Nginx/docs/OpenResty/Tips/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://hello-world-example.github.io/Nginx/docs/OpenResty/Tips/</guid>
+      <description>Tip 查看版本 $ cd /usr/local/openresty $ ll bin/ openresty -&amp;gt; /usr/local/openresty/nginx/sbin/nginx $ ./nginx/sbin/nginx -v nginx version: openresty/1.11.2.1 </description>
+    </item>
+    
   </channel>
 </rss>
