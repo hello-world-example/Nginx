@@ -5,7 +5,7 @@
 ---
 
 --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- ------ --- --- --- --- --- --- ---
---- ngx.var.host 过滤
+--- ngx.var.host 排除
 --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- ------ --- --- --- --- --- --- ---
 
 local ignore_hosts = "," ..
@@ -16,28 +16,30 @@ if ignore_hosts == nil or not (nil == ngx.re.match(ignore_hosts, "," .. ngx.var.
 end
 
 --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- ------ --- --- --- --- --- --- ---
---- ngx.var.uri 过滤
+--- ngx.var.uri 排除
 --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- ------ --- --- --- --- --- --- ---
 
 local ignore_uri = {
     kail_cn = "," ..
-            --"/," ..
             "",
 }
 
 local host_key = ngx.re.gsub(ngx.var.host, "%.", "_")
-local host_uri = ignore_uri[host_key]
-if not (nil == host_uri) and not (nil == ngx.re.match(host_uri, "," .. ngx.var.uri .. ",")) then
+local host_uri_pattern = ignore_uri[host_key]
+if not (nil == host_uri_pattern) and ngx.re.match(ngx.var.uri, host_uri_pattern) then
     return
 end
 
 --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- ------ --- --- --- --- --- --- ---
---- ngx.resp.get_headers()["content-type"] 过滤
+--- ngx.resp.get_headers()["content-type"] 排除
 --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- ------ --- --- --- --- --- --- ---
 local ignore_content_type = "(" ..
-        --" text/plain|" ..
-        --" application/json|" ..
-        ")"
+        " text/css|" ..
+        " application/javascript|" ..
+        " image/.+|" ..
+        " audio/.+|" ..
+        " video/.+|" ..
+        " noting)"
 
 local content_type = ngx.resp.get_headers()["content-type"]
 if not (content_type == nil) and ngx.re.match(" " .. content_type, ignore_content_type) then
@@ -55,26 +57,24 @@ local phone = "(\\D1[3-9]\\d{9}\\D)"
 local vin = "([^=][^A-Za-z\\d/\\-—][A-Z\\d]{17}[^A-Za-z\\d/\\-])"
 
 -- ✔️✔️✔️✔️✔️ 车牌号 （ data-id="xxx ）( 大写字母加数字，两端 非字母、数字、空白、/、-、款 )
-local license = "([^=][^A-Za-z\\d/\\-座][A-Z][A-Z\\d]{5,6}[^A-Za-z\\d/\\-款])"
-
--- 忽略的关键字
-local ignore_keys = "("
-        .. "SYSTEM|SUCCESS|"
-        .. "ALPINA|ARCFOX|YAMAHA|MELKUS|SPIRRA|LUXGEN|RENOVO|RIVIAN|SHELBY|" -- brandName
-        .. "INSIGHT" -- falilyName
-        .. ")"
-}
+local license = "([^=\\w][^A-Za-z\\d/\\-座][A-Z][A-Z\\d]{5,6}[^A-Za-z\\d/\\-款])"
 
 -- 同时拼配 手机号、VIN、车牌号
-local pattern = "(" .. phone .. "|" .. vin .. "|" .. license .. ")"
+local pattern = ".{0,20}(" .. phone .. "|" .. vin .. "|" .. license .. ").{0,20}"
+
+
+-- 字符串排除
+local ignore_keys = "("
+        .. ")"
 
 -- local pattern = ".*"
 
 ngx.ctx.buffered = (ngx.ctx.buffered or "") .. ngx.arg[1];
 
 if ngx.arg[2] then
+    local inlineRep = ngx.re.gsub(ngx.ctx.buffered, "\n", "\\n")
     -- 删除关键字
-    local marchString = ngx.re.gsub(ngx.ctx.buffered, ignore_keys, "")
+    local marchString = ngx.re.gsub(inlineRep, ignore_keys, "")
     -- 删除关键字后仍然能匹配到
     local sensitive = ngx.re.match(marchString, pattern)
     if sensitive then
@@ -83,7 +83,7 @@ if ngx.arg[2] then
                 .. "<" .. ngx.var.request_method .. "> " -- 请求方式
                 .. "<" .. ngx.var.host .. "> " -- 域名
                 .. "<" .. ngx.var.request_uri .. "> " -- request_uri 带参数
-                .. "<" .. ngx.re.gsub(ngx.ctx.buffered, "\n", "\\n") .. ">" -- 响应信息
+                .. "<" .. inlineRep .. ">" -- 响应信息
                 .. "<" .. pattern .. "> "
                 .. "<" .. content_type .. "> "
                 .. "<" .. sensitive[0] .. "> "
