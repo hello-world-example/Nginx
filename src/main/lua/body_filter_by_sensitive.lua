@@ -24,7 +24,7 @@ local ignore_uri = {
             "",
 }
 
-local host_key = ngx.re.gsub(ngx.var.host, "%.", "_")
+local host_key = ngx.re.gsub(ngx.var.host, "\.", "_")
 local host_uri_pattern = ignore_uri[host_key]
 if not (nil == host_uri_pattern) and ngx.re.match(ngx.var.uri, host_uri_pattern) then
     return
