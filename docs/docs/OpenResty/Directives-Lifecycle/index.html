@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="指令与生命周期 执行顺序  脚本类指令    指令 Context 阶段 简介 作用     init_by_lua* http loading-config 主进程加载配置文件时执行 预加载模块、等
+！不要创建全局变量，避免变量污染   init_worker_by_lua* http starting-worker 每个 Worker 进程启动时执行 Worker 计数器、等   &mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&ndash; &mdash;&mdash;&mdash;&mdash;&ndash; &mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&ndash; &mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&ndash; &mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&ndash;   ssl_certificate_by_lua_* server right-before-SSL-handshake 与下游 SSL 握手之前执行    ssl_session_fetch_by_lua_* http right-before-SSL-handshake 根据下游提供的 sessionid 进行一些操作 缓存、等   ssl_session_store_by_lua_* http right-after-SSL-handshake SSL 握手之后执行    &mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&ndash; &mdash;&mdash;&mdash;&mdash;&ndash; &mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&ndash; &mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&ndash; &mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&ndash;   set_by_lua* server"><meta property="og:title" content="" />
+<meta property="og:description" content="指令与生命周期 执行顺序  脚本类指令    指令 Context 阶段 简介 作用     init_by_lua* http loading-config 主进程加载配置文件时执行 预加载模块、等
+！不要创建全局变量，避免变量污染   init_worker_by_lua* http starting-worker 每个 Worker 进程启动时执行 Worker 计数器、等   &mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&ndash; &mdash;&mdash;&mdash;&mdash;&ndash; &mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&ndash; &mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&ndash; &mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&ndash;   ssl_certificate_by_lua_* server right-before-SSL-handshake 与下游 SSL 握手之前执行    ssl_session_fetch_by_lua_* http right-before-SSL-handshake 根据下游提供的 sessionid 进行一些操作 缓存、等   ssl_session_store_by_lua_* http right-after-SSL-handshake SSL 握手之后执行    &mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&ndash; &mdash;&mdash;&mdash;&mdash;&ndash; &mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&ndash; &mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&ndash; &mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&ndash;   set_by_lua* server" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://hello-world-example.github.io/Nginx/docs/OpenResty/Directives-Lifecycle/" />
+
+<title>Directives Lifecycle | Nginx</title>
+<link rel="icon" href="/Nginx/favicon.png" type="image/x-icon">
+
+
+<link rel="stylesheet" href="/Nginx/book.min.d436f463c9471cfab26a8b71cd2f50b6abf5225806391453da4ca111d1834fef.css" integrity="sha256-1Db0Y8lHHPqyaotxzS9Qtqv1IlgGORRT2kyhEdGDT&#43;8=">
+
+
+<!--
+Made with Book Theme
+https://github.com/alex-shpak/hugo-book
+-->
+
+  
+</head>
+
+<body>
+  <input type="checkbox" class="hidden" id="menu-control" />
+  <main class="container flex">
+    <aside class="book-menu">
+      
+  <nav>
+<h2 class="book-brand">
+  <a href="/Nginx"><span>Nginx</span>
+  </a>
+</h2>
+
+
+
+
+
+
+
+
+
+
+
+
+  <ul>
+<li>
+<p><strong>Nginx</strong></p>
+<ul>
+<li>
+  <a href="/Nginx/docs/Nginx/Tips/">Tips</a></li>
+</ul>
+</li>
+<li>
+<p><strong>OpenResty</strong></p>
+<ul>
+<li>
+  <a href="/Nginx/docs/OpenResty/Install-By-Docker/">Docker 方式安装</a></li>
+<li>
+  <a href="/Nginx/docs/OpenResty/Test-Lua/">Lua 脚本测试</a></li>
+<li>
+  <a href="/Nginx/docs/OpenResty/Directives-Lifecycle/"class=active>指令与生命周期</a></li>
+</ul>
+</li>
+<li>
+<p>
+  <a href="/Nginx/docs/OpenResty/Tips/">Tips</a></p>
+</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+</nav>
+
+
+
+
+  <script>(function(){var menu=document.querySelector("aside.book-menu nav");addEventListener("beforeunload",function(event){localStorage.setItem("menu.scrollTop",menu.scrollTop);});menu.scrollTop=localStorage.getItem("menu.scrollTop");})();</script>
+
+
+ 
+    </aside>
+
+    <div class="book-page">
+      <header class="book-header">
+        
+  <div class="flex align-center justify-between">
+  <label for="menu-control">
+    <img src="/Nginx/svg/menu.svg" class="book-icon" alt="Menu" />
+  </label>
+
+  <strong>Directives Lifecycle</strong>
+
+  <label for="toc-control">
+    <img src="/Nginx/svg/toc.svg" class="book-icon" alt="Table of Contents" />
+  </label>
+</div>
+
+
+  
+    <input type="checkbox" class="hidden" id="toc-control" />
+    <aside class="hidden clearfix">
+      
+  <nav id="TableOfContents">
+  <ul>
+    <li><a href="#指令与生命周期">指令与生命周期</a>
+      <ul>
+        <li><a href="#执行顺序">执行顺序</a></li>
+        <li><a href="#脚本类指令">脚本类指令</a></li>
+        <li><a href="#配置类指令">配置类指令</a></li>
+        <li><a href="#read-more">Read More</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+
+
+    </aside>
+  
+ 
+      </header>
+
+      
+      
+  <article class="markdown"><h1 id="指令与生命周期">指令与生命周期</h1>
+<h2 id="执行顺序">执行顺序</h2>
+<p>
+  <img src="https://cloud.githubusercontent.com/assets/2137369/15272097/77d1c09e-1a37-11e6-97ef-d9767035fc3e.png" alt="指令执行顺序图" /></p>
+<h2 id="脚本类指令">脚本类指令</h2>
+<table>
+<thead>
+<tr>
+<th align="left">指令</th>
+<th align="center">Context</th>
+<th align="center">阶段</th>
+<th>简介</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left"><code>init_by_lua*</code></td>
+<td align="center">http</td>
+<td align="center">loading-config</td>
+<td>主进程加载配置文件时执行</td>
+<td>预加载模块、等<br />！不要创建全局变量，避免变量污染</td>
+</tr>
+<tr>
+<td align="left"><code>init_worker_by_lua*</code></td>
+<td align="center">http</td>
+<td align="center">starting-worker</td>
+<td>每个 Worker 进程启动时执行</td>
+<td>Worker 计数器、等</td>
+</tr>
+<tr>
+<td align="left">&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&ndash;</td>
+<td align="center">&mdash;&mdash;&mdash;&mdash;&ndash;</td>
+<td align="center">&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&ndash;</td>
+<td>&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&ndash;</td>
+<td>&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&ndash;</td>
+</tr>
+<tr>
+<td align="left"><code>ssl_certificate_by_lua_*</code></td>
+<td align="center">server</td>
+<td align="center">right-before-SSL-handshake</td>
+<td>与下游 SSL 握手之前执行</td>
+<td></td>
+</tr>
+<tr>
+<td align="left"><code>ssl_session_fetch_by_lua_*</code></td>
+<td align="center">http</td>
+<td align="center">right-before-SSL-handshake</td>
+<td>根据下游提供的 sessionid 进行一些操作</td>
+<td>缓存、等</td>
+</tr>
+<tr>
+<td align="left"><code>ssl_session_store_by_lua_*</code></td>
+<td align="center">http</td>
+<td align="center">right-after-SSL-handshake</td>
+<td>SSL 握手之后执行</td>
+<td></td>
+</tr>
+<tr>
+<td align="left">&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&ndash;</td>
+<td align="center">&mdash;&mdash;&mdash;&mdash;&ndash;</td>
+<td align="center">&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&ndash;</td>
+<td>&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&ndash;</td>
+<td>&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&ndash;</td>
+</tr>
+<tr>
+<td align="left"><code>set_by_lua*</code></td>
+<td align="center">server<br />location</td>
+<td align="center">rewrite</td>
+<td>定义变量</td>
+<td>实现复杂的赋值逻辑<br />阻塞执行，代码要做到非常快</td>
+</tr>
+<tr>
+<td align="left">❤ <code>rewrite_by_lua*</code></td>
+<td align="center">http<br />server<br />location</td>
+<td align="center">rewrite tail</td>
+<td>rewrite 之后<br /><code>rewrite_by_lua_no_postpone</code>   可修改执行顺序</td>
+<td>地址重定向<br /> URL 重写</td>
+</tr>
+<tr>
+<td align="left">❤ <code>access_by_lua*</code></td>
+<td align="center">http<br />server<br />location</td>
+<td align="center">access tail</td>
+<td><code>access_by_lua_no_postpone</code> 可修改执行顺序</td>
+<td>拦截，访问控制、等</td>
+</tr>
+<tr>
+<td align="left">&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&ndash;</td>
+<td align="center">&mdash;&mdash;&mdash;&mdash;&ndash;</td>
+<td align="center">&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&ndash;</td>
+<td>&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&ndash;</td>
+<td>&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&ndash;</td>
+</tr>
+<tr>
+<td align="left">❤ <strong><code>content_by_lua*</code></strong></td>
+<td align="center">location</td>
+<td align="center">content</td>
+<td>生成响应内容</td>
+<td>不要和其他内容指令一起使用 如 <code>proxy_pass</code></td>
+</tr>
+<tr>
+<td align="left"><code>balancer_by_lua_*</code></td>
+<td align="center">upstream</td>
+<td align="center">content</td>
+<td>负载均衡时</td>
+<td>动态负载均衡</td>
+</tr>
+<tr>
+<td align="left">&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&ndash;</td>
+<td align="center">&mdash;&mdash;&mdash;&mdash;&ndash;</td>
+<td align="center">&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&ndash;</td>
+<td>&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&ndash;</td>
+<td>&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&ndash;</td>
+</tr>
+<tr>
+<td align="left"><code>header_filter_by_lua*</code></td>
+<td align="center">http<br />server<br /> location</td>
+<td align="center">output-header-filter</td>
+<td>代理响应后</td>
+<td>获取/修改 响应 Header</td>
+</tr>
+<tr>
+<td align="left">❤ <strong><code>body_filter_by_lua*</code></strong></td>
+<td align="center">http<br />server<br />location</td>
+<td align="center">output-body-filter</td>
+<td>代理响应后</td>
+<td>获取/修改 响应 Body<br />一次请求中可能会调用多次</td>
+</tr>
+<tr>
+<td align="left">&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&ndash;</td>
+<td align="center">&mdash;&mdash;&mdash;&mdash;&ndash;</td>
+<td align="center">&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&ndash;</td>
+<td>&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&ndash;</td>
+<td>&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&ndash;</td>
+</tr>
+<tr>
+<td align="left"><code>log_by_lua*</code></td>
+<td align="center">http<br />server<br />location</td>
+<td align="center">log</td>
+<td>日志之前执行</td>
+<td>记录、统计 访问等</td>
+</tr>
+<tr>
+<td align="left">&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&ndash;</td>
+<td align="center">&mdash;&mdash;&mdash;&mdash;&ndash;</td>
+<td align="center">&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&ndash;</td>
+<td>&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&ndash;</td>
+<td>&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&ndash;</td>
+</tr>
+<tr>
+<td align="left"><code>exit_worker_by_lua_*</code></td>
+<td align="center">http</td>
+<td align="center">exiting-worker</td>
+<td>每个 Worker 进程退出时执行</td>
+<td>释放资源等</td>
+</tr>
+</tbody>
+</table>
+<h2 id="配置类指令">配置类指令</h2>
+<table>
+<thead>
+<tr>
+<th>指令</th>
+<th align="center">Default</th>
+<th align="center">Context</th>
+<th>简介</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>【已废弃】<del>lua_load_resty_core</del></td>
+<td align="center"></td>
+<td align="center"></td>
+<td>v0.10.16 后 <code>resty.core</code> 强制加载</td>
+</tr>
+<tr>
+<td>lua_capture_error_log</td>
+<td align="center">none</td>
+<td align="center">http</td>
+<td>缓存错误日志，而不是保存到磁盘中<br />如果缓存满了，新的错误日志将覆盖缓存中日志</td>
+</tr>
+<tr>
+<td>lua_use_default_type</td>
+<td align="center">on</td>
+<td align="center">http,server,location</td>
+<td></td>
+</tr>
+<tr>
+<td>lua_malloc_trim</td>
+<td align="center">1000</td>
+<td align="center">http</td>
+<td>多少次请求清理一次内存</td>
+</tr>
+<tr>
+<td><strong>lua_code_cache</strong></td>
+<td align="center">on</td>
+<td align="center">http,server,location</td>
+<td>是否开启 <code>*_by_lua_file</code> 缓存<br />如果关闭，每个请求都会在单独的 Lua VM 实例中执行</td>
+</tr>
+<tr>
+<td>lua_regex_cache_max_entries</td>
+<td align="center">1024</td>
+<td align="center">http</td>
+<td>正则表达式缓存的最大数量，如 <code>ngx.re.*</code> 中的正则</td>
+</tr>
+<tr>
+<td>lua_regex_match_limit</td>
+<td align="center">0</td>
+<td align="center">http</td>
+<td>正则表达式库 PCRE 的 回溯限制数量</td>
+</tr>
+<tr>
+<td><strong>lua_package_path</strong></td>
+<td align="center">LUA_PATH</td>
+<td align="center">http</td>
+<td>Lua 文件搜索路径</td>
+</tr>
+<tr>
+<td><strong>lua_package_cpath</strong></td>
+<td align="center">LUA_CPATH</td>
+<td align="center">http</td>
+<td>Lua C 模块搜索路径</td>
+</tr>
+<tr>
+<td><strong>lua_need_request_body</strong></td>
+<td align="center">off</td>
+<td align="center">http,server,location</td>
+<td>是否强制读取请求体，可以在需要时通过 <code>ngx.req.read_body()</code> 读取</td>
+</tr>
+<tr>
+<td><strong>lua_shared_dict</strong></td>
+<td align="center">no</td>
+<td align="center">http</td>
+<td>定义共享字典，通过 <code>ngx.shared.DICT</code> 操作</td>
+</tr>
+<tr>
+<td></td>
+<td align="center"></td>
+<td align="center"></td>
+<td></td>
+</tr>
+<tr>
+<td>lua_socket_connect_timeout</td>
+<td align="center">60s</td>
+<td align="center">http,server,location</td>
+<td>scoket connect 方法超时时间</td>
+</tr>
+<tr>
+<td>lua_socket_send_timeout</td>
+<td align="center">60s</td>
+<td align="center">http,server,location</td>
+<td>scoket send 方法超时时间</td>
+</tr>
+<tr>
+<td>lua_socket_send_lowat</td>
+<td align="center">0</td>
+<td align="center">http,server,location</td>
+<td>cosocket send buffer 的 lowwater</td>
+</tr>
+<tr>
+<td>lua_socket_read_timeout</td>
+<td align="center">60s</td>
+<td align="center">http,server,location</td>
+<td>scoket receive 方法超时</td>
+</tr>
+<tr>
+<td>lua_socket_buffer_size</td>
+<td align="center">4k/8k</td>
+<td align="center">http,server,location</td>
+<td>cosocket 读取操作的缓冲区大小</td>
+</tr>
+<tr>
+<td>lua_socket_pool_size</td>
+<td align="center">30</td>
+<td align="center">http,server,location</td>
+<td>cosocket 链接池大小</td>
+</tr>
+<tr>
+<td>lua_socket_keepalive_timeout</td>
+<td align="center">60s</td>
+<td align="center">http,server,location</td>
+<td>cosocket 链接池中链接的最大超时时间</td>
+</tr>
+<tr>
+<td>lua_socket_log_errors</td>
+<td align="center">on</td>
+<td align="center">http,server,location</td>
+<td>cosockets 是否记录错误日志</td>
+</tr>
+<tr>
+<td></td>
+<td align="center"></td>
+<td align="center"></td>
+<td></td>
+</tr>
+<tr>
+<td>lua_ssl_ciphers</td>
+<td align="center">DEFAULT</td>
+<td align="center">http,server,location</td>
+<td></td>
+</tr>
+<tr>
+<td>lua_ssl_crl</td>
+<td align="center">no</td>
+<td align="center">http,server,location</td>
+<td></td>
+</tr>
+<tr>
+<td>lua_ssl_protocols</td>
+<td align="center">SSLv3 TLSv1 TLSv1.1 TLSv1.2</td>
+<td align="center">http,server,location</td>
+<td></td>
+</tr>
+<tr>
+<td>lua_ssl_trusted_certificate</td>
+<td align="center">no</td>
+<td align="center">http,server,location</td>
+<td></td>
+</tr>
+<tr>
+<td>lua_ssl_verify_depth</td>
+<td align="center">1</td>
+<td align="center">http,server,location</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td align="center"></td>
+<td align="center"></td>
+<td></td>
+</tr>
+<tr>
+<td>lua_http10_buffering</td>
+<td align="center">on</td>
+<td align="center">http,server,location</td>
+<td>是否启用HTTP1.0 里的缓冲机制，仅是为了兼容HTTP 1.0/0.9 协议</td>
+</tr>
+<tr>
+<td>lua_transform_underscores_in_response_headers</td>
+<td align="center">on</td>
+<td align="center">http,server,location</td>
+<td>是否把Lua代码里响应头名字的“_”转换成“-”</td>
+</tr>
+<tr>
+<td>lua_check_client_abort</td>
+<td align="center">off</td>
+<td align="center">http,server,location</td>
+<td>是否启用OpenResty的客户端意外断连检测</td>
+</tr>
+<tr>
+<td>lua_max_pending_timers</td>
+<td align="center">1024</td>
+<td align="center">http</td>
+<td>允许挂起的最大计数器个数<br /><code>ngx.timer.at</code> 设置定时器</td>
+</tr>
+<tr>
+<td>lua_max_running_timers</td>
+<td align="center">256</td>
+<td align="center">http</td>
+<td>允许运行的最大计数器个数<br /><code>ngx.timer.at</code> 设置定时器</td>
+</tr>
+<tr>
+<td>lua_sa_restart</td>
+<td align="center">on</td>
+<td align="center">http</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2 id="read-more">Read More</h2>
+<ul>
+<li>
+  <a href="https://github.com/openresty/lua-nginx-module#directives">lua-nginx-module Directives</a></li>
+<li>
+  <a href="https://www.jianshu.com/p/8e0877d69b39">[code.openresty] Openresty指令集-上</a></li>
+<li>
+  <a href="https://www.jianshu.com/p/5d0c4ce39a26">[code.openresty] Openresty指令集-下</a></li>
+</ul>
+</article>
+ 
+      
+
+      <footer class="book-footer">
+        
+  <div class="flex justify-between">
+
+
+
+
+
+  <div>
+    <a class="flex align-center" href="https://github.com/hello-world-example/Nginx/edit/master/HuGo/content/docs/OpenResty/Directives-Lifecycle.md" target="_blank" rel="noopener">
+      <img src="/Nginx/svg/edit.svg" class="book-icon" alt="Edit" />
+      <span>Edit this page</span>
+    </a>
+  </div>
+
+</div>
+
+ 
+        
+      </footer>
+
+      
+  
+  <div class="book-comments">
+
+</div>
+  
+ 
+
+      <label for="menu-control" class="hidden book-menu-overlay"></label>
+    </div>
+
+    
+    <aside class="book-toc">
+      
+  <nav id="TableOfContents">
+  <ul>
+    <li><a href="#指令与生命周期">指令与生命周期</a>
+      <ul>
+        <li><a href="#执行顺序">执行顺序</a></li>
+        <li><a href="#脚本类指令">脚本类指令</a></li>
+        <li><a href="#配置类指令">配置类指令</a></li>
+        <li><a href="#read-more">Read More</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+
+ 
+    </aside>
+    
+  </main>
+
+  
+</body>
+
+</html>
+
+
+
+
+
+
+
+
+
+
+
+

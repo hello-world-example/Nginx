@@ -38,6 +38,10 @@
   </url>
   
   <url>
+    <loc>https://hello-world-example.github.io/Nginx/docs/OpenResty/Directives-Lifecycle/</loc>
+  </url>
+  
+  <url>
     <loc>https://hello-world-example.github.io/Nginx/docs/OpenResty/Install-By-Docker/</loc>
     <lastmod>2020-08-12T15:10:24+08:00</lastmod>
   </url>
@@ -50,6 +54,10 @@
   <url>
     <loc>https://hello-world-example.github.io/Nginx/docs/OpenResty/Tips/</loc>
     <lastmod>2020-08-12T15:10:24+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://hello-world-example.github.io/Nginx/docs/TODO/</loc>
   </url>
   
   <url>
