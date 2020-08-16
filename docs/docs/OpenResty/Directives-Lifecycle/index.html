@@ -10,7 +10,7 @@
 ！不要创建全局变量，避免变量污染   init_worker_by_lua* http starting-worker 每个 Worker 进程启动时执行 Worker 计数器、等   &mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&ndash; &mdash;&mdash;&mdash;&mdash;&ndash; &mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&ndash; &mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&ndash; &mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&ndash;   ssl_certificate_by_lua_* server right-before-SSL-handshake 与下游 SSL 握手之前执行    ssl_session_fetch_by_lua_* http right-before-SSL-handshake 根据下游提供的 sessionid 进行一些操作 缓存、等   ssl_session_store_by_lua_* http right-after-SSL-handshake SSL 握手之后执行    &mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&ndash; &mdash;&mdash;&mdash;&mdash;&ndash; &mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&ndash; &mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&ndash; &mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&ndash;   set_by_lua* server" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://hello-world-example.github.io/Nginx/docs/OpenResty/Directives-Lifecycle/" />
-
+<meta property="article:modified_time" content="2020-08-16T22:31:43+08:00" />
 <title>Directives Lifecycle | Nginx</title>
 <link rel="icon" href="/Nginx/favicon.png" type="image/x-icon">
 
@@ -521,6 +521,14 @@ https://github.com/alex-shpak/hugo-book
   <div class="flex justify-between">
 
 
+
+  <div>
+    
+    <a class="flex align-center" href="https://github.com/hello-world-example/Nginx/commit/c8fb0065a1c02f8a7464159f5a24806c1f555661" title='Last modified by kailbin | Aug 16, 2020' target="_blank" rel="noopener">
+      <img src="/Nginx/svg/calendar.svg" class="book-icon" alt="Calendar" />
+      <span>Aug 16, 2020</span>
+    </a>
+  </div>
 
 
 
