@@ -11,6 +11,8 @@
 local ignore_hosts = "," ..
         ""
 
+-- local ignore_hosts = nil
+
 if ignore_hosts == nil or not (nil == ngx.re.match(ignore_hosts, "," .. ngx.var.host .. ",")) then
     return
 end
