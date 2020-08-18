@@ -79,14 +79,16 @@ if ngx.arg[2] then
     local sensitive = ngx.re.match(marchString, pattern)
     if sensitive then
         local file = io.open("/tmp/" .. ngx.var.host .. "_" .. os.date("%Y-%m-%d_%H") .. ".log", "a+");
-        local content = "<" .. ngx.var.time_local .. "> " -- 时间
-                .. "<" .. ngx.var.request_method .. "> " -- 请求方式
-                .. "<" .. ngx.var.host .. "> " -- 域名
-                .. "<" .. ngx.var.request_uri .. "> " -- request_uri 带参数
-                .. "<" .. inlineResponse .. ">" -- 响应信息
-                .. "<" .. pattern .. "> "
-                .. "<" .. content_type .. "> "
-                .. "<" .. sensitive[0] .. "> "
+        local content = ""
+                .. "<timeLocal:" .. ngx.var.time_local .. "> " -- 时间
+                .. "<requestMethod:" .. ngx.var.request_method .. "> " -- 请求方式
+                .. "<host:" .. ngx.var.host .. "> " -- 域名
+                .. "<uri:" .. ngx.var.uri .. "> " -- uri 不带参数
+                .. "<requestUri:" .. ngx.var.request_uri .. "> " -- request_uri 带参数
+                .. "<sensitive:" .. sensitive[0] .. "> " -- 匹配到的铭感信息
+                .. "<contentType:" .. content_type .. "> " -- 响应类型
+                .. "<pattern:" .. pattern .. "> " -- 匹配模式
+                --.. "<inlineResponse:" .. inlineResponse .. ">" -- 响应信息（不输出）
                 .. "\n"
         file:write(content);
         file:close();
