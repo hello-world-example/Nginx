@@ -72,18 +72,18 @@ local ignore_keys = "("
 ngx.ctx.buffered = (ngx.ctx.buffered or "") .. ngx.arg[1];
 
 if ngx.arg[2] then
-    local inlineRep = ngx.re.gsub(ngx.ctx.buffered, "\n", "\\n")
+    local inlineResponse = ngx.re.gsub(ngx.ctx.buffered, "\n", "\\n")
     -- 删除关键字
-    local marchString = ngx.re.gsub(inlineRep, ignore_keys, "")
+    local marchString = ngx.re.gsub(inlineResponse, ignore_keys, "")
     -- 删除关键字后仍然能匹配到
     local sensitive = ngx.re.match(marchString, pattern)
     if sensitive then
-        file = io.open("/tmp/" .. ngx.var.host .. "_" .. os.date("%Y-%m-%d_%H") .. ".log", "a+");
+        local file = io.open("/tmp/" .. ngx.var.host .. "_" .. os.date("%Y-%m-%d_%H") .. ".log", "a+");
         local content = "<" .. ngx.var.time_local .. "> " -- 时间
                 .. "<" .. ngx.var.request_method .. "> " -- 请求方式
                 .. "<" .. ngx.var.host .. "> " -- 域名
                 .. "<" .. ngx.var.request_uri .. "> " -- request_uri 带参数
-                .. "<" .. inlineRep .. ">" -- 响应信息
+                .. "<" .. inlineResponse .. ">" -- 响应信息
                 .. "<" .. pattern .. "> "
                 .. "<" .. content_type .. "> "
                 .. "<" .. sensitive[0] .. "> "
