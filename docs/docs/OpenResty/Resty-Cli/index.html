@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Resty-Cli 该指令在 OpenResty 安装后自带，用来测试运行在 OpenResty 中的脚本
+$ ll /usr/local/openresty/bin/resty* /usr/local/openresty/bin/resty /usr/local/openresty/bin/restydoc /usr/local/openresty/bin/restydoc-index resty  -e 执行脚本语句 xxx.lua 执行 lua 文件 -V 查看版本  --shdict=&#39;dogs 1m&#39; 指定共享变量  # 单行 $ ./bin/resty -e &#34;ngx.say(&#39;hello&#39;)&#34; # 多行 $ ./bin/resty -e &#34; local name = &#39;World&#39; ngx.say(&#39;Hello &#39;..name) &#34; # 执行 Nginx API Lua 文件 $ ./bin/resty /etc/nginx/conf.d/lua/unit_test_regex.lua # 共享字典 $ ./bin/resty --shdict=&#39;dogs 1m&#39; \  -e &#39;local dict = ngx.shared.dogs print(dict:get(&#34;Tom&#34;)) dict:set(&#34;Tom&#34;, 56) print(dict:get(&#34;Tom&#34;))&#39; restydoc 查看 指令&amp;API 帮助文档"><meta property="og:title" content="" />
+<meta property="og:description" content="Resty-Cli 该指令在 OpenResty 安装后自带，用来测试运行在 OpenResty 中的脚本
+$ ll /usr/local/openresty/bin/resty* /usr/local/openresty/bin/resty /usr/local/openresty/bin/restydoc /usr/local/openresty/bin/restydoc-index resty  -e 执行脚本语句 xxx.lua 执行 lua 文件 -V 查看版本  --shdict=&#39;dogs 1m&#39; 指定共享变量  # 单行 $ ./bin/resty -e &#34;ngx.say(&#39;hello&#39;)&#34; # 多行 $ ./bin/resty -e &#34; local name = &#39;World&#39; ngx.say(&#39;Hello &#39;..name) &#34; # 执行 Nginx API Lua 文件 $ ./bin/resty /etc/nginx/conf.d/lua/unit_test_regex.lua # 共享字典 $ ./bin/resty --shdict=&#39;dogs 1m&#39; \  -e &#39;local dict = ngx.shared.dogs print(dict:get(&#34;Tom&#34;)) dict:set(&#34;Tom&#34;, 56) print(dict:get(&#34;Tom&#34;))&#39; restydoc 查看 指令&amp;API 帮助文档" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://hello-world-example.github.io/Nginx/docs/OpenResty/Resty-Cli/" />
+
+<title>Resty Cli | Nginx</title>
+<link rel="icon" href="/Nginx/favicon.png" type="image/x-icon">
+
+
+<link rel="stylesheet" href="/Nginx/book.min.d436f463c9471cfab26a8b71cd2f50b6abf5225806391453da4ca111d1834fef.css" integrity="sha256-1Db0Y8lHHPqyaotxzS9Qtqv1IlgGORRT2kyhEdGDT&#43;8=">
+
+
+<!--
+Made with Book Theme
+https://github.com/alex-shpak/hugo-book
+-->
+
+  
+</head>
+
+<body>
+  <input type="checkbox" class="hidden" id="menu-control" />
+  <main class="container flex">
+    <aside class="book-menu">
+      
+  <nav>
+<h2 class="book-brand">
+  <a href="/Nginx"><span>Nginx</span>
+  </a>
+</h2>
+
+
+
+
+
+
+
+
+
+
+
+
+  <ul>
+<li>
+<p><strong>Nginx</strong></p>
+<ul>
+<li>
+  <a href="/Nginx/docs/Nginx/Tips/">Tips</a></li>
+</ul>
+</li>
+<li>
+<p><strong>OpenResty</strong></p>
+<ul>
+<li>
+  <a href="/Nginx/docs/OpenResty/Install-By-Docker/">Docker 方式安装</a></li>
+<li>
+  <a href="/Nginx/docs/OpenResty/Resty-Cli/"class=active>Resty-Cli</a></li>
+<li>
+  <a href="/Nginx/docs/OpenResty/Test-Lua/">Lua 脚本测试</a></li>
+<li>
+  <a href="/Nginx/docs/OpenResty/Directives-Lifecycle/">指令与生命周期</a></li>
+<li>
+  <a href="/Nginx/docs/OpenResty/Tips/">Tips</a></li>
+</ul>
+</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+</nav>
+
+
+
+
+  <script>(function(){var menu=document.querySelector("aside.book-menu nav");addEventListener("beforeunload",function(event){localStorage.setItem("menu.scrollTop",menu.scrollTop);});menu.scrollTop=localStorage.getItem("menu.scrollTop");})();</script>
+
+
+ 
+    </aside>
+
+    <div class="book-page">
+      <header class="book-header">
+        
+  <div class="flex align-center justify-between">
+  <label for="menu-control">
+    <img src="/Nginx/svg/menu.svg" class="book-icon" alt="Menu" />
+  </label>
+
+  <strong>Resty Cli</strong>
+
+  <label for="toc-control">
+    <img src="/Nginx/svg/toc.svg" class="book-icon" alt="Table of Contents" />
+  </label>
+</div>
+
+
+  
+    <input type="checkbox" class="hidden" id="toc-control" />
+    <aside class="hidden clearfix">
+      
+  <nav id="TableOfContents">
+  <ul>
+    <li><a href="#resty-cli">Resty-Cli</a>
+      <ul>
+        <li><a href="#resty">resty</a></li>
+        <li><a href="#restydoc">restydoc</a></li>
+        <li><a href="#read-more">Read More</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+
+
+    </aside>
+  
+ 
+      </header>
+
+      
+      
+  <article class="markdown"><h1 id="resty-cli">Resty-Cli</h1>
+<p>该指令在 OpenResty 安装后自带，用来测试运行在 OpenResty 中的脚本</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ ll /usr/local/openresty/bin/resty*
+
+/usr/local/openresty/bin/resty
+/usr/local/openresty/bin/restydoc
+/usr/local/openresty/bin/restydoc-index
+</code></pre></div><h2 id="resty">resty</h2>
+<ul>
+<li><code>-e</code> 执行脚本语句</li>
+<li><code>xxx.lua</code> 执行 lua 文件</li>
+<li><code>-V</code> 查看版本</li>
+<li></li>
+<li><code>--shdict='dogs 1m'</code> 指定共享变量</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e"># 单行</span>
+$ ./bin/resty -e <span style="color:#e6db74">&#34;ngx.say(&#39;hello&#39;)&#34;</span>
+
+<span style="color:#75715e"># 多行</span>
+$ ./bin/resty -e <span style="color:#e6db74">&#34;                 
+</span><span style="color:#e6db74">local name = &#39;World&#39;
+</span><span style="color:#e6db74">ngx.say(&#39;Hello &#39;..name)
+</span><span style="color:#e6db74">&#34;</span>
+
+
+<span style="color:#75715e"># 执行 Nginx API Lua 文件</span>
+$ ./bin/resty /etc/nginx/conf.d/lua/unit_test_regex.lua 
+
+<span style="color:#75715e"># 共享字典</span>
+$ ./bin/resty --shdict<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;dogs 1m&#39;</span> <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>              -e <span style="color:#e6db74">&#39;local dict = ngx.shared.dogs
+</span><span style="color:#e6db74">                  print(dict:get(&#34;Tom&#34;))
+</span><span style="color:#e6db74">                  dict:set(&#34;Tom&#34;, 56)
+</span><span style="color:#e6db74">                  print(dict:get(&#34;Tom&#34;))&#39;</span>
+</code></pre></div><h2 id="restydoc">restydoc</h2>
+<p>查看 指令&amp;API 帮助文档</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ ./bin/restydoc -s ngx.say
+   ngx.say
+       syntax: ok, err <span style="color:#f92672">=</span> ngx.say<span style="color:#f92672">(</span>...<span style="color:#f92672">)</span>
+
+       context: rewrite_by_lua*, access_by_lua*, content_by_lua*
+
+       Just as ngx.print but also emit a trailing newline.
+
+
+
+
+$ ./bin/restydoc -s content_by_lua
+   content_by_lua_block
+       syntax: content_by_lua_block <span style="color:#f92672">{</span> lua-script <span style="color:#f92672">}</span>
+
+       context: location, location <span style="color:#66d9ef">if</span>
+
+       phase: content
+
+       Similar to the content_by_lua directive except that this directive
+       inlines the Lua source directly inside a pair of curly braces <span style="color:#f92672">(</span><span style="color:#e6db74">&#34;{}&#34;</span><span style="color:#f92672">)</span>
+       instead of in an NGINX string literal <span style="color:#f92672">(</span>which requires special character
+       escaping<span style="color:#f92672">)</span>.
+
+       For instance,
+
+            content_by_lua_block <span style="color:#f92672">{</span>
+                ngx.say<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;I need no extra escaping here, for example: \r\nblah&#34;</span><span style="color:#f92672">)</span>
+            <span style="color:#f92672">}</span>
+
+       This directive was first introduced in the <span style="color:#e6db74">&#34;v0.9.17&#34;</span> release.
+</code></pre></div><h2 id="read-more">Read More</h2>
+<ul>
+<li>
+  <a href="https://openresty.org/en/rpm-packages.html">OpenResty® RPM Packages</a></li>
+<li>
+  <a href="https://github.com/openresty/resty-cli">openresty / resty-cli</a></li>
+</ul>
+</article>
+ 
+      
+
+      <footer class="book-footer">
+        
+  <div class="flex justify-between">
+
+
+
+
+
+  <div>
+    <a class="flex align-center" href="https://github.com/hello-world-example/Nginx/edit/master/HuGo/content/docs/OpenResty/Resty-Cli.md" target="_blank" rel="noopener">
+      <img src="/Nginx/svg/edit.svg" class="book-icon" alt="Edit" />
+      <span>Edit this page</span>
+    </a>
+  </div>
+
+</div>
+
+ 
+        
+      </footer>
+
+      
+  
+  <div class="book-comments">
+
+</div>
+  
+ 
+
+      <label for="menu-control" class="hidden book-menu-overlay"></label>
+    </div>
+
+    
+    <aside class="book-toc">
+      
+  <nav id="TableOfContents">
+  <ul>
+    <li><a href="#resty-cli">Resty-Cli</a>
+      <ul>
+        <li><a href="#resty">resty</a></li>
+        <li><a href="#restydoc">restydoc</a></li>
+        <li><a href="#read-more">Read More</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+
+ 
+    </aside>
+    
+  </main>
+
+  
+</body>
+
+</html>
+
+
+
+
+
+
+
+
+
+
+
+

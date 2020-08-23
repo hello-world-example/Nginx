@@ -48,6 +48,10 @@
   </url>
   
   <url>
+    <loc>https://hello-world-example.github.io/Nginx/docs/OpenResty/Resty-Cli/</loc>
+  </url>
+  
+  <url>
     <loc>https://hello-world-example.github.io/Nginx/docs/OpenResty/Test-Lua/</loc>
     <lastmod>2020-08-12T15:10:24+08:00</lastmod>
   </url>

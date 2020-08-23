@@ -85,6 +85,16 @@ default.conf server { listen 80 default_server reuseport; server_name localhost;
     
     <item>
       <title></title>
+      <link>https://hello-world-example.github.io/Nginx/docs/OpenResty/Resty-Cli/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://hello-world-example.github.io/Nginx/docs/OpenResty/Resty-Cli/</guid>
+      <description>Resty-Cli 该指令在 OpenResty 安装后自带，用来测试运行在 OpenResty 中的脚本
+$ ll /usr/local/openresty/bin/resty* /usr/local/openresty/bin/resty /usr/local/openresty/bin/restydoc /usr/local/openresty/bin/restydoc-index resty  -e 执行脚本语句 xxx.lua 执行 lua 文件 -V 查看版本  --shdict=&#39;dogs 1m&#39; 指定共享变量  # 单行 $ ./bin/resty -e &amp;#34;ngx.say(&amp;#39;hello&amp;#39;)&amp;#34; # 多行 $ ./bin/resty -e &amp;#34; local name = &amp;#39;World&amp;#39; ngx.say(&amp;#39;Hello &amp;#39;..name) &amp;#34; # 执行 Nginx API Lua 文件 $ ./bin/resty /etc/nginx/conf.d/lua/unit_test_regex.lua # 共享字典 $ ./bin/resty --shdict=&amp;#39;dogs 1m&amp;#39; \  -e &amp;#39;local dict = ngx.shared.dogs print(dict:get(&amp;#34;Tom&amp;#34;)) dict:set(&amp;#34;Tom&amp;#34;, 56) print(dict:get(&amp;#34;Tom&amp;#34;))&amp;#39; restydoc 查看 指令&amp;amp;API 帮助文档</description>
+    </item>
+    
+    <item>
+      <title></title>
       <link>https://hello-world-example.github.io/Nginx/docs/OpenResty/Test-Lua/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
@@ -107,7 +117,7 @@ default.conf server { listen 80 default_server reuseport; server_name localhost;
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>https://hello-world-example.github.io/Nginx/docs/TODO/</guid>
-      <description>TODO  resty 指令 Nginx 生命周期 时间函数 https://www.jianshu.com/p/d2a5e669b529 OpenResty API  https://www.jianshu.com/p/7b7c7c8264a3 https://www.jianshu.com/p/997e775a396d    </description>
+      <description>TODO  Nginx 生命周期 时间函数 https://www.jianshu.com/p/d2a5e669b529 OpenResty API  https://www.jianshu.com/p/7b7c7c8264a3 https://www.jianshu.com/p/997e775a396d    </description>
     </item>
     
   </channel>
