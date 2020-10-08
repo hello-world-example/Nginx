@@ -10,7 +10,7 @@ $ ll /usr/local/openresty/bin/resty* /usr/local/openresty/bin/resty /usr/local/o
 $ ll /usr/local/openresty/bin/resty* /usr/local/openresty/bin/resty /usr/local/openresty/bin/restydoc /usr/local/openresty/bin/restydoc-index resty  -e 执行脚本语句 xxx.lua 执行 lua 文件 -V 查看版本  --shdict=&#39;dogs 1m&#39; 指定共享变量  # 单行 $ ./bin/resty -e &#34;ngx.say(&#39;hello&#39;)&#34; # 多行 $ ./bin/resty -e &#34; local name = &#39;World&#39; ngx.say(&#39;Hello &#39;..name) &#34; # 执行 Nginx API Lua 文件 $ ./bin/resty /etc/nginx/conf.d/lua/unit_test_regex.lua # 共享字典 $ ./bin/resty --shdict=&#39;dogs 1m&#39; \  -e &#39;local dict = ngx.shared.dogs print(dict:get(&#34;Tom&#34;)) dict:set(&#34;Tom&#34;, 56) print(dict:get(&#34;Tom&#34;))&#39; restydoc 查看 指令&amp;API 帮助文档" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://hello-world-example.github.io/Nginx/docs/OpenResty/Resty-Cli/" />
-
+<meta property="article:modified_time" content="2020-08-23T23:18:53+08:00" />
 <title>Resty Cli | Nginx</title>
 <link rel="icon" href="/Nginx/favicon.png" type="image/x-icon">
 
@@ -52,6 +52,10 @@ https://github.com/alex-shpak/hugo-book
 <li>
 <p><strong>Nginx</strong></p>
 <ul>
+<li>
+  <a href="/Nginx/docs/Nginx/Static-Resource/">静态资源</a></li>
+<li>
+  <a href="/Nginx/docs/Nginx/Proxy-Pass/">反向代理</a></li>
 <li>
   <a href="/Nginx/docs/Nginx/Tips/">Tips</a></li>
 </ul>
@@ -216,6 +220,14 @@ $ ./bin/restydoc -s content_by_lua
   <div class="flex justify-between">
 
 
+
+  <div>
+    
+    <a class="flex align-center" href="https://github.com/hello-world-example/Nginx/commit/b5d91177fbc13ceb255281a2fd301cd9f5de5394" title='Last modified by kailbin | Aug 23, 2020' target="_blank" rel="noopener">
+      <img src="/Nginx/svg/calendar.svg" class="book-icon" alt="Calendar" />
+      <span>Aug 23, 2020</span>
+    </a>
+  </div>
 
 
 

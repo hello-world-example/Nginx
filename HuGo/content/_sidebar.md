@@ -6,6 +6,8 @@ headless: true
 
 - **Nginx**
 
+  - [静态资源]({{< relref "/docs/Nginx/Static-Resource.md" >}})
+  - [反向代理]({{< relref "/docs/Nginx/Proxy-Pass.md" >}}) 
   - [Tips]({{< relref "/docs/Nginx/Tips.md" >}})
 
 - **OpenResty**

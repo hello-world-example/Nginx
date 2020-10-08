@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="反向代理 Simple 配置 server { server_name www.kail.com; location / { proxy_pass http://localhost:8080; } } server { server_name api.kail.com; location / { proxy_pass http://localhost:8888; } } upstream lb { server 192.168.1.1; server 192.168.1.2; # 设置权重，默认是 1  server backend1.example.com weight=5; # 失败最大重试次数（默认 1），与 fail_timeout (默认 10s) 属性组合使用  server 192.0.2.1 max_fails=3 fail_timeout=30s; } server { server_name lb.kail.com; location / { proxy_pass http://lb; } } Read More  ngx_http_proxy_module   proxy_pass   ngx_http_upstream_module   upstream 、 server 、 keepalive 、 keepalive_timeout    Using nginx as HTTP load balancer  "><meta property="og:title" content="" />
+<meta property="og:description" content="反向代理 Simple 配置 server { server_name www.kail.com; location / { proxy_pass http://localhost:8080; } } server { server_name api.kail.com; location / { proxy_pass http://localhost:8888; } } upstream lb { server 192.168.1.1; server 192.168.1.2; # 设置权重，默认是 1  server backend1.example.com weight=5; # 失败最大重试次数（默认 1），与 fail_timeout (默认 10s) 属性组合使用  server 192.0.2.1 max_fails=3 fail_timeout=30s; } server { server_name lb.kail.com; location / { proxy_pass http://lb; } } Read More  ngx_http_proxy_module   proxy_pass   ngx_http_upstream_module   upstream 、 server 、 keepalive 、 keepalive_timeout    Using nginx as HTTP load balancer  " />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://hello-world-example.github.io/Nginx/docs/Nginx/Proxy-Pass/" />
+
+<title>Proxy Pass | Nginx</title>
+<link rel="icon" href="/Nginx/favicon.png" type="image/x-icon">
+
+
+<link rel="stylesheet" href="/Nginx/book.min.d436f463c9471cfab26a8b71cd2f50b6abf5225806391453da4ca111d1834fef.css" integrity="sha256-1Db0Y8lHHPqyaotxzS9Qtqv1IlgGORRT2kyhEdGDT&#43;8=">
+
+
+<!--
+Made with Book Theme
+https://github.com/alex-shpak/hugo-book
+-->
+
+  
+</head>
+
+<body>
+  <input type="checkbox" class="hidden" id="menu-control" />
+  <main class="container flex">
+    <aside class="book-menu">
+      
+  <nav>
+<h2 class="book-brand">
+  <a href="/Nginx"><span>Nginx</span>
+  </a>
+</h2>
+
+
+
+
+
+
+
+
+
+
+
+
+  <ul>
+<li>
+<p><strong>Nginx</strong></p>
+<ul>
+<li>
+  <a href="/Nginx/docs/Nginx/Static-Resource/">静态资源</a></li>
+<li>
+  <a href="/Nginx/docs/Nginx/Proxy-Pass/"class=active>反向代理</a></li>
+<li>
+  <a href="/Nginx/docs/Nginx/Tips/">Tips</a></li>
+</ul>
+</li>
+<li>
+<p><strong>OpenResty</strong></p>
+<ul>
+<li>
+  <a href="/Nginx/docs/OpenResty/Install-By-Docker/">Docker 方式安装</a></li>
+<li>
+  <a href="/Nginx/docs/OpenResty/Resty-Cli/">Resty-Cli</a></li>
+<li>
+  <a href="/Nginx/docs/OpenResty/Test-Lua/">Lua 脚本测试</a></li>
+<li>
+  <a href="/Nginx/docs/OpenResty/Directives-Lifecycle/">指令与生命周期</a></li>
+<li>
+  <a href="/Nginx/docs/OpenResty/Tips/">Tips</a></li>
+</ul>
+</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+</nav>
+
+
+
+
+  <script>(function(){var menu=document.querySelector("aside.book-menu nav");addEventListener("beforeunload",function(event){localStorage.setItem("menu.scrollTop",menu.scrollTop);});menu.scrollTop=localStorage.getItem("menu.scrollTop");})();</script>
+
+
+ 
+    </aside>
+
+    <div class="book-page">
+      <header class="book-header">
+        
+  <div class="flex align-center justify-between">
+  <label for="menu-control">
+    <img src="/Nginx/svg/menu.svg" class="book-icon" alt="Menu" />
+  </label>
+
+  <strong>Proxy Pass</strong>
+
+  <label for="toc-control">
+    <img src="/Nginx/svg/toc.svg" class="book-icon" alt="Table of Contents" />
+  </label>
+</div>
+
+
+  
+    <input type="checkbox" class="hidden" id="toc-control" />
+    <aside class="hidden clearfix">
+      
+  <nav id="TableOfContents">
+  <ul>
+    <li><a href="#反向代理">反向代理</a>
+      <ul>
+        <li><a href="#simple-配置">Simple 配置</a></li>
+        <li><a href="#read-more">Read More</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+
+
+    </aside>
+  
+ 
+      </header>
+
+      
+      
+  <article class="markdown"><h1 id="反向代理">反向代理</h1>
+<h2 id="simple-配置">Simple 配置</h2>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-nginx" data-lang="nginx"><span style="color:#66d9ef">server</span> {
+  <span style="color:#f92672">server_name</span>  <span style="color:#e6db74">www.kail.com</span>;
+  <span style="color:#f92672">location</span> <span style="color:#e6db74">/</span> {
+    <span style="color:#f92672">proxy_pass</span>  <span style="color:#e6db74">http://localhost:8080</span>;
+  }
+}
+
+<span style="color:#66d9ef">server</span> {
+  <span style="color:#f92672">server_name</span>  <span style="color:#e6db74">api.kail.com</span>;
+  <span style="color:#f92672">location</span> <span style="color:#e6db74">/</span> {
+    <span style="color:#f92672">proxy_pass</span>  <span style="color:#e6db74">http://localhost:8888</span>;
+  }
+}
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-nginx" data-lang="nginx"><span style="color:#66d9ef">upstream</span> <span style="color:#e6db74">lb</span> {
+  
+  <span style="color:#f92672">server</span> <span style="color:#ae81ff">192</span><span style="color:#e6db74">.168.1.1</span>;
+  <span style="color:#f92672">server</span> <span style="color:#ae81ff">192</span><span style="color:#e6db74">.168.1.2</span>;
+
+  <span style="color:#75715e"># 设置权重，默认是 1
+</span><span style="color:#75715e"></span>  <span style="color:#f92672">server</span> <span style="color:#e6db74">backend1.example.com</span>      <span style="color:#e6db74">weight=5</span>;
+  <span style="color:#75715e"># 失败最大重试次数（默认 1），与 fail_timeout (默认 10s) 属性组合使用
+</span><span style="color:#75715e"></span>  <span style="color:#f92672">server</span> <span style="color:#ae81ff">192</span><span style="color:#e6db74">.0.2.1</span>                 <span style="color:#e6db74">max_fails=3</span>  <span style="color:#e6db74">fail_timeout=30s</span>;
+}
+
+<span style="color:#66d9ef">server</span> {
+  <span style="color:#f92672">server_name</span>  <span style="color:#e6db74">lb.kail.com</span>;
+  <span style="color:#f92672">location</span> <span style="color:#e6db74">/</span> {
+    <span style="color:#f92672">proxy_pass</span> <span style="color:#e6db74">http://lb</span>;
+  }
+}
+</code></pre></div><h2 id="read-more">Read More</h2>
+<ul>
+<li>ngx_http_proxy_module
+<ul>
+<li>
+  <a href="http://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_pass">proxy_pass</a></li>
+</ul>
+</li>
+<li>ngx_http_upstream_module
+<ul>
+<li>
+  <a href="http://nginx.org/en/docs/http/ngx_http_upstream_module.html#upstream">upstream</a> 、 
+  <a href="http://nginx.org/en/docs/http/ngx_http_upstream_module.html#server">server</a> 、 
+  <a href="http://nginx.org/en/docs/http/ngx_http_upstream_module.html#keepalive">keepalive</a> 、
+  <a href="http://nginx.org/en/docs/http/ngx_http_upstream_module.html#keepalive_timeout">keepalive_timeout</a></li>
+</ul>
+</li>
+<li>
+  <a href="http://nginx.org/en/docs/http/load_balancing.html">Using nginx as HTTP load balancer</a></li>
+</ul>
+</article>
+ 
+      
+
+      <footer class="book-footer">
+        
+  <div class="flex justify-between">
+
+
+
+
+
+  <div>
+    <a class="flex align-center" href="https://github.com/hello-world-example/Nginx/edit/master/HuGo/content/docs/Nginx/Proxy-Pass.md" target="_blank" rel="noopener">
+      <img src="/Nginx/svg/edit.svg" class="book-icon" alt="Edit" />
+      <span>Edit this page</span>
+    </a>
+  </div>
+
+</div>
+
+ 
+        
+      </footer>
+
+      
+  
+  <div class="book-comments">
+
+</div>
+  
+ 
+
+      <label for="menu-control" class="hidden book-menu-overlay"></label>
+    </div>
+
+    
+    <aside class="book-toc">
+      
+  <nav id="TableOfContents">
+  <ul>
+    <li><a href="#反向代理">反向代理</a>
+      <ul>
+        <li><a href="#simple-配置">Simple 配置</a></li>
+        <li><a href="#read-more">Read More</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+
+ 
+    </aside>
+    
+  </main>
+
+  
+</body>
+
+</html>
+
+
+
+
+
+
+
+
+
+
+
+

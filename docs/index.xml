@@ -16,53 +16,26 @@
       
       <guid>https://hello-world-example.github.io/Nginx/_sidebar/</guid>
       <description>  Nginx
-  Tips    OpenResty
+  静态资源  反向代理  Tips    OpenResty
   Docker 方式安装  Resty-Cli  Lua 脚本测试  指令与生命周期  Tips    </description>
     </item>
     
     <item>
       <title></title>
-      <link>https://hello-world-example.github.io/Nginx/docs/Nginx/ngx_http_core_module/listen/</link>
+      <link>https://hello-world-example.github.io/Nginx/docs/Nginx/Proxy-Pass/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>https://hello-world-example.github.io/Nginx/docs/Nginx/ngx_http_core_module/listen/</guid>
-      <description></description>
+      <guid>https://hello-world-example.github.io/Nginx/docs/Nginx/Proxy-Pass/</guid>
+      <description>反向代理 Simple 配置 server { server_name www.kail.com; location / { proxy_pass http://localhost:8080; } } server { server_name api.kail.com; location / { proxy_pass http://localhost:8888; } } upstream lb { server 192.168.1.1; server 192.168.1.2; # 设置权重，默认是 1  server backend1.example.com weight=5; # 失败最大重试次数（默认 1），与 fail_timeout (默认 10s) 属性组合使用  server 192.0.2.1 max_fails=3 fail_timeout=30s; } server { server_name lb.kail.com; location / { proxy_pass http://lb; } } Read More  ngx_http_proxy_module   proxy_pass   ngx_http_upstream_module   upstream 、 server 、 keepalive 、 keepalive_timeout    Using nginx as HTTP load balancer  </description>
     </item>
     
     <item>
       <title></title>
-      <link>https://hello-world-example.github.io/Nginx/docs/Nginx/ngx_http_core_module/location/</link>
+      <link>https://hello-world-example.github.io/Nginx/docs/Nginx/Static-Resource/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>https://hello-world-example.github.io/Nginx/docs/Nginx/ngx_http_core_module/location/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title></title>
-      <link>https://hello-world-example.github.io/Nginx/docs/Nginx/ngx_http_log_module/access_log/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://hello-world-example.github.io/Nginx/docs/Nginx/ngx_http_log_module/access_log/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title></title>
-      <link>https://hello-world-example.github.io/Nginx/docs/Nginx/ngx_http_proxy_module/proxy_pass/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://hello-world-example.github.io/Nginx/docs/Nginx/ngx_http_proxy_module/proxy_pass/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title></title>
-      <link>https://hello-world-example.github.io/Nginx/docs/Nginx/ngx_http_upstream_module/upstream/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://hello-world-example.github.io/Nginx/docs/Nginx/ngx_http_upstream_module/upstream/</guid>
-      <description></description>
+      <guid>https://hello-world-example.github.io/Nginx/docs/Nginx/Static-Resource/</guid>
+      <description>静态资源 参考配置 server { listen 80 default_server reuseport; server_name localhost; charset utf8; error_page 404 /404.html; location / { # 指定实际录绝对路径  root /etc/nginx/conf.d/html/; # 默认首页  index index.html index.htm; # 开启目录浏览功能  autoindex on; # 开启详细文件大小统计，让文件大小显示 MB，GB单位，默认为 b  autoindex_exact_size off; # 以服务器本地时区显示文件修改日期  autoindex_localtime on; } } Read More   Serving Static Content ngx_http_core_module   server 、 listen 、 server_name 、 error_page 、 location 、 root 、 alias 、   ngx_http_charset_module   charset   ngx_http_index_module   index   ngx_http_autoindex_module   autoindex 、 autoindex_exact_size 、 autoindex_format 、 autoindex_localtime    </description>
     </item>
     
     <item>
