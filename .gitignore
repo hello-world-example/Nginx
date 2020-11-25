@@ -1,6 +1,12 @@
 target
 *.iml
 .idea
+HuGo/themes/book
 
-key.lua
-config.lua
+.project
+.settings
+.classpath
+.factorypath
+
+# 私密信息不提交
+key.properties
