@@ -11,6 +11,34 @@
     
     <item>
       <title></title>
+      <link>https://hello-world-example.github.io/Nginx/docs/Kong/Concepts/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://hello-world-example.github.io/Nginx/docs/Kong/Concepts/</guid>
+      <description>Kong 核心概念 模块层级  RESTful APIs  Admin API 接口等   Plugins  基于 Lua 开发，类似于拦截器 提供多用场景的插件 官方插件市场：https://docs.konghq.com/hub/   集群 &amp;amp; 数据存储  支持 Postgres、Cassandra   OpenResty  Kong 的底层引擎 通过 lua 指令 提供请求生命周期的 Hooks   Nginx  功能概念   Upstreams： Target： Services： Route： Consumer： Plugins：  配置一个服务    Configuring a Service   Services  该服务会儿会被转发到：http://github.com
+ $ curl -i -X POST \  --url http://localhost:8001/services/ \  --data &amp;#39;name=service_github&amp;#39; \  --data &amp;#39;url=http://github.</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://hello-world-example.github.io/Nginx/docs/Kong/Install-By-Docker/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://hello-world-example.github.io/Nginx/docs/Kong/Install-By-Docker/</guid>
+      <description>Kong Docker 方式安装 数据库模式 创建 network $ docker network ls $ docker network prune $ docker network create kong-net Postgres 安装 $ docker run -d \  --network=kong-net \  -p 5432:5432 \  -e &amp;#34;POSTGRES_DB=postgres&amp;#34; \  -e &amp;#34;POSTGRES_USER=kong&amp;#34; \  -e &amp;#34;POSTGRES_PASSWORD=kong&amp;#34; \  --name kong-database \  postgres:9.6.15 初始化 Postgres $ docker run --rm \ 	--network=kong-net \  -e &amp;#34;KONG_PG_HOST=kong-database&amp;#34; \  -e &amp;#34;KONG_PG_PORT=5432&amp;#34; \  -e &amp;#34;KONG_PG_USER=kong&amp;#34; \  -e &amp;#34;KONG_PG_PASSWORD=kong&amp;#34; \  -e &amp;#34;KONG_PG_DATABASE=postgres&amp;#34; \  -e &amp;#34;KONG_PG_SCHEMA=kong&amp;#34; \  kong:2.</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://hello-world-example.github.io/Nginx/docs/Kong/Kong-Admin-UI/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://hello-world-example.github.io/Nginx/docs/Kong/Kong-Admin-UI/</guid>
+      <description>Kong Admin UI pantsel/konga # 初始化数据 $ docker run --rm -e &amp;#34;DB_PG_SCHEMA=konga&amp;#34; pantsel/konga:0.14.9 \  -c prepare \  -a postgres \  -u postgresql://kong:kong@10.10.16.160:5432/postgres # 运行 $ docker run -d \  -p 1337:1337 \  -e &amp;#34;NODE_ENV=production&amp;#34; \  -e &amp;#34;TOKEN_SECRET=konga&amp;#34; \  -e &amp;#34;DB_ADAPTER=postgres&amp;#34; \  -e &amp;#34;DB_HOST=10.10.16.160&amp;#34; \  -e &amp;#34;DB_PORT=5432&amp;#34; \  -e &amp;#34;DB_USER=kong&amp;#34; \  -e &amp;#34;DB_PASSWORD=kong&amp;#34; \  -e &amp;#34;DB_DATABASE=postgres&amp;#34; \  -e &amp;#34;DB_PG_SCHEMA=konga&amp;#34;\  --name konga \  pantsel/konga:0.</description>
+    </item>
+    
+    <item>
+      <title></title>
       <link>https://hello-world-example.github.io/Nginx/docs/Nginx/Proxy-Pass/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       

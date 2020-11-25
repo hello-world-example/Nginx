@@ -8,7 +8,7 @@
 <meta property="og:description" content="反向代理 Simple 配置 server { server_name www.kail.com; location / { proxy_pass http://localhost:8080; } } server { server_name api.kail.com; location / { proxy_pass http://localhost:8888; } } upstream lb { server 192.168.1.1; server 192.168.1.2; # 设置权重，默认是 1  server backend1.example.com weight=5; # 失败最大重试次数（默认 1），与 fail_timeout (默认 10s) 属性组合使用  server 192.0.2.1 max_fails=3 fail_timeout=30s; } server { server_name lb.kail.com; location / { proxy_pass http://lb; } } Read More  ngx_http_proxy_module   proxy_pass   ngx_http_upstream_module   upstream 、 server 、 keepalive 、 keepalive_timeout    Using nginx as HTTP load balancer  " />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://hello-world-example.github.io/Nginx/docs/Nginx/Proxy-Pass/" />
-
+<meta property="article:modified_time" content="2020-10-08T16:50:12+08:00" />
 <title>Proxy Pass | Nginx</title>
 <link rel="icon" href="/Nginx/favicon.png" type="image/x-icon">
 
@@ -71,6 +71,19 @@ https://github.com/alex-shpak/hugo-book
   <a href="/Nginx/docs/OpenResty/Directives-Lifecycle/">指令与生命周期</a></li>
 <li>
   <a href="/Nginx/docs/OpenResty/Tips/">Tips</a></li>
+</ul>
+</li>
+<li>
+<p><strong>Kong</strong></p>
+<ul>
+<li>
+  <a href="/Nginx/docs/Kong/Install-By-Docker/">Docker 方式安装</a></li>
+<li>
+  <a href="/Nginx/docs/Kong/Kong-Admin-UI/">Kong Admin UI</a></li>
+<li>
+  <a href="/Nginx/docs/Kong/Concepts/">Kong 核心概念</a></li>
+<li>
+  <a href="/Nginx/docs/Kong/Plugins/"><strong>Plugins..</strong></a></li>
 </ul>
 </li>
 </ul>
@@ -195,6 +208,14 @@ https://github.com/alex-shpak/hugo-book
   <div class="flex justify-between">
 
 
+
+  <div>
+    
+    <a class="flex align-center" href="https://github.com/hello-world-example/Nginx/commit/56695fe654d12c84f2b65ded0b86511f44bf9931" title='Last modified by kailbin | Oct 8, 2020' target="_blank" rel="noopener">
+      <img src="/Nginx/svg/calendar.svg" class="book-icon" alt="Calendar" />
+      <span>Oct 8, 2020</span>
+    </a>
+  </div>
 
 
 

@@ -18,5 +18,12 @@ headless: true
   - [指令与生命周期]({{< relref "/docs/OpenResty/Directives-Lifecycle.md" >}})
   - [Tips]({{< relref "/docs/OpenResty/Tips.md" >}})
   
+- **Kong**
+
+  - [Docker 方式安装]({{< relref "/docs/Kong/Install-By-Docker.md" >}})
+  - [Kong Admin UI]({{< relref "/docs/Kong/Kong-Admin-UI.md" >}})
+  - [Kong 核心概念]({{< relref "/docs/Kong/Concepts.md" >}})
+  - [**Plugins..**]({{< relref "/docs/Kong/Plugins/_index.md" >}})
+
   
 

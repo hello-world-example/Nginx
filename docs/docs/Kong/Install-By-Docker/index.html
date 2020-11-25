@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Kong Docker 方式安装 数据库模式 创建 network $ docker network ls $ docker network prune $ docker network create kong-net Postgres 安装 $ docker run -d \  --network=kong-net \  -p 5432:5432 \  -e &#34;POSTGRES_DB=postgres&#34; \  -e &#34;POSTGRES_USER=kong&#34; \  -e &#34;POSTGRES_PASSWORD=kong&#34; \  --name kong-database \  postgres:9.6.15 初始化 Postgres $ docker run --rm \ 	--network=kong-net \  -e &#34;KONG_PG_HOST=kong-database&#34; \  -e &#34;KONG_PG_PORT=5432&#34; \  -e &#34;KONG_PG_USER=kong&#34; \  -e &#34;KONG_PG_PASSWORD=kong&#34; \  -e &#34;KONG_PG_DATABASE=postgres&#34; \  -e &#34;KONG_PG_SCHEMA=kong&#34; \  kong:2."><meta property="og:title" content="" />
+<meta property="og:description" content="Kong Docker 方式安装 数据库模式 创建 network $ docker network ls $ docker network prune $ docker network create kong-net Postgres 安装 $ docker run -d \  --network=kong-net \  -p 5432:5432 \  -e &#34;POSTGRES_DB=postgres&#34; \  -e &#34;POSTGRES_USER=kong&#34; \  -e &#34;POSTGRES_PASSWORD=kong&#34; \  --name kong-database \  postgres:9.6.15 初始化 Postgres $ docker run --rm \ 	--network=kong-net \  -e &#34;KONG_PG_HOST=kong-database&#34; \  -e &#34;KONG_PG_PORT=5432&#34; \  -e &#34;KONG_PG_USER=kong&#34; \  -e &#34;KONG_PG_PASSWORD=kong&#34; \  -e &#34;KONG_PG_DATABASE=postgres&#34; \  -e &#34;KONG_PG_SCHEMA=kong&#34; \  kong:2." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://hello-world-example.github.io/Nginx/docs/Kong/Install-By-Docker/" />
+
+<title>Install by Docker | Nginx</title>
+<link rel="icon" href="/Nginx/favicon.png" type="image/x-icon">
+
+
+<link rel="stylesheet" href="/Nginx/book.min.d436f463c9471cfab26a8b71cd2f50b6abf5225806391453da4ca111d1834fef.css" integrity="sha256-1Db0Y8lHHPqyaotxzS9Qtqv1IlgGORRT2kyhEdGDT&#43;8=">
+
+
+<!--
+Made with Book Theme
+https://github.com/alex-shpak/hugo-book
+-->
+
+  
+</head>
+
+<body>
+  <input type="checkbox" class="hidden" id="menu-control" />
+  <main class="container flex">
+    <aside class="book-menu">
+      
+  <nav>
+<h2 class="book-brand">
+  <a href="/Nginx"><span>Nginx</span>
+  </a>
+</h2>
+
+
+
+
+
+
+
+
+
+
+
+
+  <ul>
+<li>
+<p><strong>Nginx</strong></p>
+<ul>
+<li>
+  <a href="/Nginx/docs/Nginx/Static-Resource/">静态资源</a></li>
+<li>
+  <a href="/Nginx/docs/Nginx/Proxy-Pass/">反向代理</a></li>
+<li>
+  <a href="/Nginx/docs/Nginx/Tips/">Tips</a></li>
+</ul>
+</li>
+<li>
+<p><strong>OpenResty</strong></p>
+<ul>
+<li>
+  <a href="/Nginx/docs/OpenResty/Install-By-Docker/">Docker 方式安装</a></li>
+<li>
+  <a href="/Nginx/docs/OpenResty/Resty-Cli/">Resty-Cli</a></li>
+<li>
+  <a href="/Nginx/docs/OpenResty/Test-Lua/">Lua 脚本测试</a></li>
+<li>
+  <a href="/Nginx/docs/OpenResty/Directives-Lifecycle/">指令与生命周期</a></li>
+<li>
+  <a href="/Nginx/docs/OpenResty/Tips/">Tips</a></li>
+</ul>
+</li>
+<li>
+<p><strong>Kong</strong></p>
+<ul>
+<li>
+  <a href="/Nginx/docs/Kong/Install-By-Docker/"class=active>Docker 方式安装</a></li>
+<li>
+  <a href="/Nginx/docs/Kong/Kong-Admin-UI/">Kong Admin UI</a></li>
+<li>
+  <a href="/Nginx/docs/Kong/Concepts/">Kong 核心概念</a></li>
+<li>
+  <a href="/Nginx/docs/Kong/Plugins/"><strong>Plugins..</strong></a></li>
+</ul>
+</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+</nav>
+
+
+
+
+  <script>(function(){var menu=document.querySelector("aside.book-menu nav");addEventListener("beforeunload",function(event){localStorage.setItem("menu.scrollTop",menu.scrollTop);});menu.scrollTop=localStorage.getItem("menu.scrollTop");})();</script>
+
+
+ 
+    </aside>
+
+    <div class="book-page">
+      <header class="book-header">
+        
+  <div class="flex align-center justify-between">
+  <label for="menu-control">
+    <img src="/Nginx/svg/menu.svg" class="book-icon" alt="Menu" />
+  </label>
+
+  <strong>Install by Docker</strong>
+
+  <label for="toc-control">
+    <img src="/Nginx/svg/toc.svg" class="book-icon" alt="Table of Contents" />
+  </label>
+</div>
+
+
+  
+    <input type="checkbox" class="hidden" id="toc-control" />
+    <aside class="hidden clearfix">
+      
+  <nav id="TableOfContents">
+  <ul>
+    <li><a href="#kong-docker-方式安装">Kong Docker 方式安装</a>
+      <ul>
+        <li><a href="#数据库模式">数据库模式</a>
+          <ul>
+            <li><a href="#创建-network">创建 network</a></li>
+            <li><a href="#postgres-安装">Postgres 安装</a></li>
+            <li><a href="#初始化-postgres">初始化 Postgres</a></li>
+            <li><a href="#启动-kong">启动 Kong</a></li>
+          </ul>
+        </li>
+        <li><a href="#配置文件模式">配置文件模式</a></li>
+        <li><a href="#端口">端口</a></li>
+        <li><a href="#read-more">Read More</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+
+
+    </aside>
+  
+ 
+      </header>
+
+      
+      
+  <article class="markdown"><h1 id="kong-docker-方式安装">Kong Docker 方式安装</h1>
+<h2 id="数据库模式">数据库模式</h2>
+<h3 id="创建-network">创建 network</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ docker network ls
+$ docker network prune
+
+$ docker network create kong-net
+</code></pre></div><h3 id="postgres-安装">Postgres 安装</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ docker run -d <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>  --network<span style="color:#f92672">=</span>kong-net <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>  -p 5432:5432 <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>  -e <span style="color:#e6db74">&#34;POSTGRES_DB=postgres&#34;</span> <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>  -e <span style="color:#e6db74">&#34;POSTGRES_USER=kong&#34;</span> <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>  -e <span style="color:#e6db74">&#34;POSTGRES_PASSWORD=kong&#34;</span> <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>  --name kong-database <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>  postgres:9.6.15
+</code></pre></div><h3 id="初始化-postgres">初始化 Postgres</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ docker run --rm <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>		--network<span style="color:#f92672">=</span>kong-net <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>     -e <span style="color:#e6db74">&#34;KONG_PG_HOST=kong-database&#34;</span> <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>     -e <span style="color:#e6db74">&#34;KONG_PG_PORT=5432&#34;</span> <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>     -e <span style="color:#e6db74">&#34;KONG_PG_USER=kong&#34;</span> <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>     -e <span style="color:#e6db74">&#34;KONG_PG_PASSWORD=kong&#34;</span> <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>     -e <span style="color:#e6db74">&#34;KONG_PG_DATABASE=postgres&#34;</span> <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>     -e <span style="color:#e6db74">&#34;KONG_PG_SCHEMA=kong&#34;</span> <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>     kong:2.1.4-centos kong migrations bootstrap
+</code></pre></div><h3 id="启动-kong">启动 Kong</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ docker run -d --name kong <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>     --network<span style="color:#f92672">=</span>kong-net <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>     -e <span style="color:#e6db74">&#34;KONG_PG_HOST=kong-database&#34;</span> <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span> 		 -e <span style="color:#e6db74">&#34;KONG_PG_PORT=5432&#34;</span> <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>     -e <span style="color:#e6db74">&#34;KONG_PG_USER=kong&#34;</span> <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>     -e <span style="color:#e6db74">&#34;KONG_PG_PASSWORD=kong&#34;</span> <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>     -e <span style="color:#e6db74">&#34;KONG_PG_DATABASE=postgres&#34;</span> <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>     -e <span style="color:#e6db74">&#34;KONG_PG_SCHEMA=kong&#34;</span> <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>     -e <span style="color:#e6db74">&#34;KONG_PROXY_ACCESS_LOG=/dev/stdout&#34;</span> <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>     -e <span style="color:#e6db74">&#34;KONG_ADMIN_ACCESS_LOG=/dev/stdout&#34;</span> <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>     -e <span style="color:#e6db74">&#34;KONG_PROXY_ERROR_LOG=/dev/stderr&#34;</span> <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>     -e <span style="color:#e6db74">&#34;KONG_ADMIN_ERROR_LOG=/dev/stderr&#34;</span> <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>     -e <span style="color:#e6db74">&#34;KONG_PROXY_LISTEN=0.0.0.0:8000, 0.0.0.0:8443 ssl&#34;</span> <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>     -e <span style="color:#e6db74">&#34;KONG_ADMIN_LISTEN=0.0.0.0:8001, 0.0.0.0:8444 ssl&#34;</span> <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>     -p 80:8000 <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>     -p 8001:8001 <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>     kong:2.1.4-centos
+</code></pre></div><h2 id="配置文件模式">配置文件模式</h2>
+<blockquote>
+<p>
+  <a href="https://docs.konghq.com/install/docker/">DB-less mode</a></p>
+<p>
+  <a href="https://docs.konghq.com/2.2.x/db-less-and-declarative-config/">DB-less and Declarative Configuration</a></p>
+</blockquote>
+<h2 id="端口">端口</h2>
+<ul>
+<li>
+<p><code>:8000</code> HTTP upstream 监听端口</p>
+</li>
+<li>
+<p><code>:8443</code> HTTPs upstream 监听端口</p>
+</li>
+<li>
+<p><code>:8001</code> HTTP 
+  <a href="https://docs.konghq.com/2.2.x/admin-api">Admin API</a> 管理端口</p>
+</li>
+<li>
+<p><code>:8444</code> HTTPs 
+  <a href="https://docs.konghq.com/2.2.x/admin-api">Admin API</a> 管理端口</p>
+</li>
+</ul>
+<h2 id="read-more">Read More</h2>
+<ul>
+<li>
+  <a href="https://docs.konghq.com/install/docker/">Kong Gateway Docker Installation</a></li>
+</ul>
+</article>
+ 
+      
+
+      <footer class="book-footer">
+        
+  <div class="flex justify-between">
+
+
+
+
+
+  <div>
+    <a class="flex align-center" href="https://github.com/hello-world-example/Nginx/edit/master/HuGo/content/docs/Kong/Install-By-Docker.md" target="_blank" rel="noopener">
+      <img src="/Nginx/svg/edit.svg" class="book-icon" alt="Edit" />
+      <span>Edit this page</span>
+    </a>
+  </div>
+
+</div>
+
+ 
+        
+      </footer>
+
+      
+  
+  <div class="book-comments">
+
+</div>
+  
+ 
+
+      <label for="menu-control" class="hidden book-menu-overlay"></label>
+    </div>
+
+    
+    <aside class="book-toc">
+      
+  <nav id="TableOfContents">
+  <ul>
+    <li><a href="#kong-docker-方式安装">Kong Docker 方式安装</a>
+      <ul>
+        <li><a href="#数据库模式">数据库模式</a>
+          <ul>
+            <li><a href="#创建-network">创建 network</a></li>
+            <li><a href="#postgres-安装">Postgres 安装</a></li>
+            <li><a href="#初始化-postgres">初始化 Postgres</a></li>
+            <li><a href="#启动-kong">启动 Kong</a></li>
+          </ul>
+        </li>
+        <li><a href="#配置文件模式">配置文件模式</a></li>
+        <li><a href="#端口">端口</a></li>
+        <li><a href="#read-more">Read More</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+
+ 
+    </aside>
+    
+  </main>
+
+  
+</body>
+
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
