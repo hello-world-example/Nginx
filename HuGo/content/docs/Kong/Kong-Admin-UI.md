@@ -4,6 +4,8 @@
 
 ## pantsel/konga
 
+> 注意：不支持老版的 kong，没有 Apis 的概念
+
 ```bash
 # 初始化数据
 $ docker run --rm -e "DB_PG_SCHEMA=konga" pantsel/konga:0.14.9 \

@@ -18,7 +18,7 @@
       <description>  Nginx
   静态资源  反向代理  Tips    OpenResty
   Docker 方式安装  Resty-Cli  Lua 脚本测试  指令与生命周期  Tips    Kong
-  Docker 方式安装  Kong Admin UI  Kong 核心概念  Plugins..    </description>
+  Docker 方式安装  Kong Admin UI  Kong 核心概念  Plugins..   http-log-extended      </description>
     </item>
     
     <item>
@@ -46,7 +46,26 @@
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>https://hello-world-example.github.io/Nginx/docs/Kong/Kong-Admin-UI/</guid>
-      <description>Kong Admin UI pantsel/konga # 初始化数据 $ docker run --rm -e &amp;#34;DB_PG_SCHEMA=konga&amp;#34; pantsel/konga:0.14.9 \  -c prepare \  -a postgres \  -u postgresql://kong:kong@10.10.16.160:5432/postgres # 运行 $ docker run -d \  -p 1337:1337 \  -e &amp;#34;NODE_ENV=production&amp;#34; \  -e &amp;#34;TOKEN_SECRET=konga&amp;#34; \  -e &amp;#34;DB_ADAPTER=postgres&amp;#34; \  -e &amp;#34;DB_HOST=10.10.16.160&amp;#34; \  -e &amp;#34;DB_PORT=5432&amp;#34; \  -e &amp;#34;DB_USER=kong&amp;#34; \  -e &amp;#34;DB_PASSWORD=kong&amp;#34; \  -e &amp;#34;DB_DATABASE=postgres&amp;#34; \  -e &amp;#34;DB_PG_SCHEMA=konga&amp;#34;\  --name konga \  pantsel/konga:0.</description>
+      <description>Kong Admin UI pantsel/konga  注意：不支持老版的 kong，没有 Apis 的概念
+ # 初始化数据 $ docker run --rm -e &amp;#34;DB_PG_SCHEMA=konga&amp;#34; pantsel/konga:0.14.9 \  -c prepare \  -a postgres \  -u postgresql://kong:kong@10.10.16.160:5432/postgres # 运行 $ docker run -d \  -p 1337:1337 \  -e &amp;#34;NODE_ENV=production&amp;#34; \  -e &amp;#34;TOKEN_SECRET=konga&amp;#34; \  -e &amp;#34;DB_ADAPTER=postgres&amp;#34; \  -e &amp;#34;DB_HOST=10.10.16.160&amp;#34; \  -e &amp;#34;DB_PORT=5432&amp;#34; \  -e &amp;#34;DB_USER=kong&amp;#34; \  -e &amp;#34;DB_PASSWORD=kong&amp;#34; \  -e &amp;#34;DB_DATABASE=postgres&amp;#34; \  -e &amp;#34;DB_PG_SCHEMA=konga&amp;#34;\  --name konga \  pantsel/konga:0.</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://hello-world-example.github.io/Nginx/docs/Kong/Plugins/http-log-extended/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://hello-world-example.github.io/Nginx/docs/Kong/Plugins/http-log-extended/</guid>
+      <description>http-log-extended  该插件相比官方插件 http-log 增加了对 requestBody 和 responseBody 的输出 便于分析 请求体 和 响应信息，但是日志量会较大  安装插件 $ git clone https://github.com/Makcy/kong-plugin-http-log-extended.git $ cd kong-plugin-http-log-extended # 安装 $ luarocks make # 查看安装位置 $ cat `luarocks config --system-config` .. rocks_trees = { { name = &amp;#34;user&amp;#34;, root = home .. &amp;#34;/.luarocks&amp;#34; }; { name = &amp;#34;system&amp;#34;, root = &amp;#34;/usr/local&amp;#34; }; } .. $ ll /usr/local&amp;#34;/share/lua/5.1&amp;#34;/kong/plugins/http-log-extended/ # 修改 kong.conf $ vim /etc/kong/kong.conf # 老版 custom_plugins = http-log-extended # 新版 plugins = bundled, http-log-extended # 重启 kong 生效 $ kong stop &amp;amp;&amp;amp; kong start # 查看所有可用的插件 $ curl http://localhost:8001/plugins/enabled 删除插件 # 修改 kong.</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://hello-world-example.github.io/Nginx/docs/Kong/Plugins/kafka-log/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://hello-world-example.github.io/Nginx/docs/Kong/Plugins/kafka-log/</guid>
+      <description>kong-plugin-kafka-log Read More   yskopets/kong-plugin-kafka-log  </description>
     </item>
     
     <item>

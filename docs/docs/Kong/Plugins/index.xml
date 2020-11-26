@@ -9,5 +9,23 @@
 	<atom:link href="https://hello-world-example.github.io/Nginx/docs/Kong/Plugins/index.xml" rel="self" type="application/rss+xml" />
     
     
+    <item>
+      <title></title>
+      <link>https://hello-world-example.github.io/Nginx/docs/Kong/Plugins/http-log-extended/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://hello-world-example.github.io/Nginx/docs/Kong/Plugins/http-log-extended/</guid>
+      <description>http-log-extended  该插件相比官方插件 http-log 增加了对 requestBody 和 responseBody 的输出 便于分析 请求体 和 响应信息，但是日志量会较大  安装插件 $ git clone https://github.com/Makcy/kong-plugin-http-log-extended.git $ cd kong-plugin-http-log-extended # 安装 $ luarocks make # 查看安装位置 $ cat `luarocks config --system-config` .. rocks_trees = { { name = &amp;#34;user&amp;#34;, root = home .. &amp;#34;/.luarocks&amp;#34; }; { name = &amp;#34;system&amp;#34;, root = &amp;#34;/usr/local&amp;#34; }; } .. $ ll /usr/local&amp;#34;/share/lua/5.1&amp;#34;/kong/plugins/http-log-extended/ # 修改 kong.conf $ vim /etc/kong/kong.conf # 老版 custom_plugins = http-log-extended # 新版 plugins = bundled, http-log-extended # 重启 kong 生效 $ kong stop &amp;amp;&amp;amp; kong start # 查看所有可用的插件 $ curl http://localhost:8001/plugins/enabled 删除插件 # 修改 kong.</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://hello-world-example.github.io/Nginx/docs/Kong/Plugins/kafka-log/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://hello-world-example.github.io/Nginx/docs/Kong/Plugins/kafka-log/</guid>
+      <description>kong-plugin-kafka-log Read More   yskopets/kong-plugin-kafka-log  </description>
+    </item>
+    
   </channel>
 </rss>

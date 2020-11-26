@@ -4,11 +4,13 @@
 <head>
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="Kong Admin UI pantsel/konga # 初始化数据 $ docker run --rm -e &#34;DB_PG_SCHEMA=konga&#34; pantsel/konga:0.14.9 \  -c prepare \  -a postgres \  -u postgresql://kong:kong@10.10.16.160:5432/postgres # 运行 $ docker run -d \  -p 1337:1337 \  -e &#34;NODE_ENV=production&#34; \  -e &#34;TOKEN_SECRET=konga&#34; \  -e &#34;DB_ADAPTER=postgres&#34; \  -e &#34;DB_HOST=10.10.16.160&#34; \  -e &#34;DB_PORT=5432&#34; \  -e &#34;DB_USER=kong&#34; \  -e &#34;DB_PASSWORD=kong&#34; \  -e &#34;DB_DATABASE=postgres&#34; \  -e &#34;DB_PG_SCHEMA=konga&#34;\  --name konga \  pantsel/konga:0."><meta property="og:title" content="" />
-<meta property="og:description" content="Kong Admin UI pantsel/konga # 初始化数据 $ docker run --rm -e &#34;DB_PG_SCHEMA=konga&#34; pantsel/konga:0.14.9 \  -c prepare \  -a postgres \  -u postgresql://kong:kong@10.10.16.160:5432/postgres # 运行 $ docker run -d \  -p 1337:1337 \  -e &#34;NODE_ENV=production&#34; \  -e &#34;TOKEN_SECRET=konga&#34; \  -e &#34;DB_ADAPTER=postgres&#34; \  -e &#34;DB_HOST=10.10.16.160&#34; \  -e &#34;DB_PORT=5432&#34; \  -e &#34;DB_USER=kong&#34; \  -e &#34;DB_PASSWORD=kong&#34; \  -e &#34;DB_DATABASE=postgres&#34; \  -e &#34;DB_PG_SCHEMA=konga&#34;\  --name konga \  pantsel/konga:0." />
+<meta name="description" content="Kong Admin UI pantsel/konga  注意：不支持老版的 kong，没有 Apis 的概念
+ # 初始化数据 $ docker run --rm -e &#34;DB_PG_SCHEMA=konga&#34; pantsel/konga:0.14.9 \  -c prepare \  -a postgres \  -u postgresql://kong:kong@10.10.16.160:5432/postgres # 运行 $ docker run -d \  -p 1337:1337 \  -e &#34;NODE_ENV=production&#34; \  -e &#34;TOKEN_SECRET=konga&#34; \  -e &#34;DB_ADAPTER=postgres&#34; \  -e &#34;DB_HOST=10.10.16.160&#34; \  -e &#34;DB_PORT=5432&#34; \  -e &#34;DB_USER=kong&#34; \  -e &#34;DB_PASSWORD=kong&#34; \  -e &#34;DB_DATABASE=postgres&#34; \  -e &#34;DB_PG_SCHEMA=konga&#34;\  --name konga \  pantsel/konga:0."><meta property="og:title" content="" />
+<meta property="og:description" content="Kong Admin UI pantsel/konga  注意：不支持老版的 kong，没有 Apis 的概念
+ # 初始化数据 $ docker run --rm -e &#34;DB_PG_SCHEMA=konga&#34; pantsel/konga:0.14.9 \  -c prepare \  -a postgres \  -u postgresql://kong:kong@10.10.16.160:5432/postgres # 运行 $ docker run -d \  -p 1337:1337 \  -e &#34;NODE_ENV=production&#34; \  -e &#34;TOKEN_SECRET=konga&#34; \  -e &#34;DB_ADAPTER=postgres&#34; \  -e &#34;DB_HOST=10.10.16.160&#34; \  -e &#34;DB_PORT=5432&#34; \  -e &#34;DB_USER=kong&#34; \  -e &#34;DB_PASSWORD=kong&#34; \  -e &#34;DB_DATABASE=postgres&#34; \  -e &#34;DB_PG_SCHEMA=konga&#34;\  --name konga \  pantsel/konga:0." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://hello-world-example.github.io/Nginx/docs/Kong/Kong-Admin-UI/" />
-
+<meta property="article:modified_time" content="2020-11-25T20:41:10+08:00" />
 <title>Kong Admin U I | Nginx</title>
 <link rel="icon" href="/Nginx/favicon.png" type="image/x-icon">
 
@@ -83,7 +85,12 @@ https://github.com/alex-shpak/hugo-book
 <li>
   <a href="/Nginx/docs/Kong/Concepts/">Kong 核心概念</a></li>
 <li>
-  <a href="/Nginx/docs/Kong/Plugins/"><strong>Plugins..</strong></a></li>
+  <a href="/Nginx/docs/Kong/Plugins/"><strong>Plugins..</strong></a>
+<ul>
+<li>
+  <a href="/Nginx/docs/Kong/Plugins/http-log-extended/">http-log-extended</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -150,6 +157,9 @@ https://github.com/alex-shpak/hugo-book
       
   <article class="markdown"><h1 id="kong-admin-ui">Kong Admin UI</h1>
 <h2 id="pantselkonga">pantsel/konga</h2>
+<blockquote>
+<p>注意：不支持老版的 kong，没有 Apis 的概念</p>
+</blockquote>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e"># 初始化数据</span>
 $ docker run --rm -e <span style="color:#e6db74">&#34;DB_PG_SCHEMA=konga&#34;</span> pantsel/konga:0.14.9 <span style="color:#ae81ff">\
 </span><span style="color:#ae81ff"></span>    -c prepare <span style="color:#ae81ff">\
@@ -196,6 +206,14 @@ $ docker run -d <span style="color:#ae81ff">\
   <div class="flex justify-between">
 
 
+
+  <div>
+    
+    <a class="flex align-center" href="https://github.com/hello-world-example/Nginx/commit/a0797993de354ef8fd43dc7ea64c1c228e9f335b" title='Last modified by kailbin | Nov 25, 2020' target="_blank" rel="noopener">
+      <img src="/Nginx/svg/calendar.svg" class="book-icon" alt="Calendar" />
+      <span>Nov 25, 2020</span>
+    </a>
+  </div>
 
 
 

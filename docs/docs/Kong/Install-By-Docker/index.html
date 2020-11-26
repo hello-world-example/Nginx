@@ -8,7 +8,7 @@
 <meta property="og:description" content="Kong Docker 方式安装 数据库模式 创建 network $ docker network ls $ docker network prune $ docker network create kong-net Postgres 安装 $ docker run -d \  --network=kong-net \  -p 5432:5432 \  -e &#34;POSTGRES_DB=postgres&#34; \  -e &#34;POSTGRES_USER=kong&#34; \  -e &#34;POSTGRES_PASSWORD=kong&#34; \  --name kong-database \  postgres:9.6.15 初始化 Postgres $ docker run --rm \ 	--network=kong-net \  -e &#34;KONG_PG_HOST=kong-database&#34; \  -e &#34;KONG_PG_PORT=5432&#34; \  -e &#34;KONG_PG_USER=kong&#34; \  -e &#34;KONG_PG_PASSWORD=kong&#34; \  -e &#34;KONG_PG_DATABASE=postgres&#34; \  -e &#34;KONG_PG_SCHEMA=kong&#34; \  kong:2." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://hello-world-example.github.io/Nginx/docs/Kong/Install-By-Docker/" />
-
+<meta property="article:modified_time" content="2020-11-25T20:41:10+08:00" />
 <title>Install by Docker | Nginx</title>
 <link rel="icon" href="/Nginx/favicon.png" type="image/x-icon">
 
@@ -83,7 +83,12 @@ https://github.com/alex-shpak/hugo-book
 <li>
   <a href="/Nginx/docs/Kong/Concepts/">Kong 核心概念</a></li>
 <li>
-  <a href="/Nginx/docs/Kong/Plugins/"><strong>Plugins..</strong></a></li>
+  <a href="/Nginx/docs/Kong/Plugins/"><strong>Plugins..</strong></a>
+<ul>
+<li>
+  <a href="/Nginx/docs/Kong/Plugins/http-log-extended/">http-log-extended</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -238,6 +243,14 @@ $ docker network create kong-net
   <div class="flex justify-between">
 
 
+
+  <div>
+    
+    <a class="flex align-center" href="https://github.com/hello-world-example/Nginx/commit/a0797993de354ef8fd43dc7ea64c1c228e9f335b" title='Last modified by kailbin | Nov 25, 2020' target="_blank" rel="noopener">
+      <img src="/Nginx/svg/calendar.svg" class="book-icon" alt="Calendar" />
+      <span>Nov 25, 2020</span>
+    </a>
+  </div>
 
 
 
