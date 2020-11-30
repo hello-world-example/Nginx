@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="开发环境搭建  背景：
+  Lua 快速开始  LuaRocks 安装  创建一个 Rock  准备
+  Kong Docker 方式安装   Docker 方式   在 Kong Docker 方式安装 的基础上， 增加 volume 映射 /usr/local/share/lua/5.1/kong/plugins/debug-plugin 插件目录 debug-plugin 可替换为真实的插件名   $ docker run -d --name kong \  --network=kong-net \  -e &#34;KONG_PG_HOST=kong-database&#34; \  -e &#34;KONG_PG_PORT=5432&#34; \  -e &#34;KONG_PG_USER=kong&#34; \  -e &#34;KONG_PG_PASSWORD=kong&#34; \  -e &#34;KONG_PG_DATABASE=postgres&#34; \  -e &#34;KONG_PG_SCHEMA=kong&#34; \  -e &#34;KONG_PROXY_ACCESS_LOG=/dev/stdout&#34; \  -e &#34;KONG_ADMIN_ACCESS_LOG=/dev/stdout&#34; \  -e &#34;KONG_PROXY_ERROR_LOG=/dev/stderr&#34; \  -e &#34;KONG_ADMIN_ERROR_LOG=/dev/stderr&#34; \  -e &#34;KONG_PROXY_LISTEN=0."><meta property="og:title" content="" />
+<meta property="og:description" content="开发环境搭建  背景：
+  Lua 快速开始  LuaRocks 安装  创建一个 Rock  准备
+  Kong Docker 方式安装   Docker 方式   在 Kong Docker 方式安装 的基础上， 增加 volume 映射 /usr/local/share/lua/5.1/kong/plugins/debug-plugin 插件目录 debug-plugin 可替换为真实的插件名   $ docker run -d --name kong \  --network=kong-net \  -e &#34;KONG_PG_HOST=kong-database&#34; \  -e &#34;KONG_PG_PORT=5432&#34; \  -e &#34;KONG_PG_USER=kong&#34; \  -e &#34;KONG_PG_PASSWORD=kong&#34; \  -e &#34;KONG_PG_DATABASE=postgres&#34; \  -e &#34;KONG_PG_SCHEMA=kong&#34; \  -e &#34;KONG_PROXY_ACCESS_LOG=/dev/stdout&#34; \  -e &#34;KONG_ADMIN_ACCESS_LOG=/dev/stdout&#34; \  -e &#34;KONG_PROXY_ERROR_LOG=/dev/stderr&#34; \  -e &#34;KONG_ADMIN_ERROR_LOG=/dev/stderr&#34; \  -e &#34;KONG_PROXY_LISTEN=0." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://hello-world-example.github.io/Nginx/docs/Kong/Plugins/Dev-Environment/" />
+
+<title>Dev Environment | Nginx</title>
+<link rel="icon" href="/Nginx/favicon.png" type="image/x-icon">
+
+
+<link rel="stylesheet" href="/Nginx/book.min.d436f463c9471cfab26a8b71cd2f50b6abf5225806391453da4ca111d1834fef.css" integrity="sha256-1Db0Y8lHHPqyaotxzS9Qtqv1IlgGORRT2kyhEdGDT&#43;8=">
+
+
+<!--
+Made with Book Theme
+https://github.com/alex-shpak/hugo-book
+-->
+
+  
+</head>
+
+<body>
+  <input type="checkbox" class="hidden" id="menu-control" />
+  <main class="container flex">
+    <aside class="book-menu">
+      
+  <nav>
+<h2 class="book-brand">
+  <a href="/Nginx"><span>Nginx</span>
+  </a>
+</h2>
+
+
+
+
+
+
+
+
+
+
+
+
+  <ul>
+<li>
+<p><strong>Nginx</strong></p>
+<ul>
+<li>
+  <a href="/Nginx/docs/Nginx/Static-Resource/">静态资源</a></li>
+<li>
+  <a href="/Nginx/docs/Nginx/Proxy-Pass/">反向代理</a></li>
+<li>
+  <a href="/Nginx/docs/Nginx/Tips/">Tips</a></li>
+</ul>
+</li>
+<li>
+<p><strong>OpenResty</strong></p>
+<ul>
+<li>
+  <a href="/Nginx/docs/OpenResty/Install-By-Docker/">Docker 方式安装</a></li>
+<li>
+  <a href="/Nginx/docs/OpenResty/Resty-Cli/">Resty-Cli</a></li>
+<li>
+  <a href="/Nginx/docs/OpenResty/Test-Lua/">Lua 脚本测试</a></li>
+<li>
+  <a href="/Nginx/docs/OpenResty/Directives-Lifecycle/">指令与生命周期</a></li>
+<li>
+  <a href="/Nginx/docs/OpenResty/Tips/">Tips</a></li>
+</ul>
+</li>
+<li>
+<p><strong>Kong</strong></p>
+<ul>
+<li>
+  <a href="/Nginx/docs/Kong/Install-By-Docker/">Docker 方式安装</a></li>
+<li>
+  <a href="/Nginx/docs/Kong/Kong-Admin-UI/">Kong Admin UI</a></li>
+<li>
+  <a href="/Nginx/docs/Kong/Concepts/">Kong 核心概念</a></li>
+<li>
+  <a href="/Nginx/docs/Kong/Plugins/"><strong>Plugins..</strong></a>
+<ul>
+<li>
+  <a href="/Nginx/docs/Kong/Plugins/Dev-Environment/"class=active>开发环境准备</a></li>
+<li>
+  <a href="/Nginx/docs/Kong/Plugins/http-log-extended/">http-log-extended</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+</nav>
+
+
+
+
+  <script>(function(){var menu=document.querySelector("aside.book-menu nav");addEventListener("beforeunload",function(event){localStorage.setItem("menu.scrollTop",menu.scrollTop);});menu.scrollTop=localStorage.getItem("menu.scrollTop");})();</script>
+
+
+ 
+    </aside>
+
+    <div class="book-page">
+      <header class="book-header">
+        
+  <div class="flex align-center justify-between">
+  <label for="menu-control">
+    <img src="/Nginx/svg/menu.svg" class="book-icon" alt="Menu" />
+  </label>
+
+  <strong>Dev Environment</strong>
+
+  <label for="toc-control">
+    <img src="/Nginx/svg/toc.svg" class="book-icon" alt="Table of Contents" />
+  </label>
+</div>
+
+
+  
+    <input type="checkbox" class="hidden" id="toc-control" />
+    <aside class="hidden clearfix">
+      
+  <nav id="TableOfContents">
+  <ul>
+    <li><a href="#开发环境搭建">开发环境搭建</a>
+      <ul>
+        <li><a href="#docker-方式">Docker 方式</a></li>
+        <li><a href="#faq">FAQ</a>
+          <ul>
+            <li><a href="#docker-logs-kong-发现报错的插件不存在">docker logs kong 发现报错的插件不存在</a></li>
+          </ul>
+        </li>
+        <li><a href="#read-more">Read More</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+
+
+    </aside>
+  
+ 
+      </header>
+
+      
+      
+  <article class="markdown"><h1 id="开发环境搭建">开发环境搭建</h1>
+<blockquote>
+<p><strong>背景：</strong></p>
+<ul>
+<li>
+  <a href="/Lua/docs/Quick-Start/Quick-Start/">Lua 快速开始</a></li>
+<li>
+  <a href="/Lua/docs/LuaRocks/LuaRocks-Install/">LuaRocks 安装</a></li>
+<li>
+  <a href="/Lua/docs/LuaRocks/Creating-Rock/">创建一个 Rock</a></li>
+</ul>
+<p><strong>准备</strong></p>
+<ul>
+<li>
+  <a href="/Nginx/docs/Kong/Install-By-Docker/">Kong Docker 方式安装</a></li>
+</ul>
+</blockquote>
+<h2 id="docker-方式">Docker 方式</h2>
+<blockquote>
+<ul>
+<li>在 
+  <a href="/Nginx/docs/Kong/Install-By-Docker/">Kong Docker 方式安装</a> 的基础上，</li>
+<li>增加 volume 映射 <code>/usr/local/share/lua/5.1/kong/plugins/debug-plugin</code> 插件目录</li>
+<li><code>debug-plugin</code> 可替换为真实的插件名</li>
+</ul>
+</blockquote>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ docker run -d --name kong <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>     --network<span style="color:#f92672">=</span>kong-net <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>     -e <span style="color:#e6db74">&#34;KONG_PG_HOST=kong-database&#34;</span> <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span> 		 -e <span style="color:#e6db74">&#34;KONG_PG_PORT=5432&#34;</span> <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>     -e <span style="color:#e6db74">&#34;KONG_PG_USER=kong&#34;</span> <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>     -e <span style="color:#e6db74">&#34;KONG_PG_PASSWORD=kong&#34;</span> <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>     -e <span style="color:#e6db74">&#34;KONG_PG_DATABASE=postgres&#34;</span> <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>     -e <span style="color:#e6db74">&#34;KONG_PG_SCHEMA=kong&#34;</span> <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>     -e <span style="color:#e6db74">&#34;KONG_PROXY_ACCESS_LOG=/dev/stdout&#34;</span> <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>     -e <span style="color:#e6db74">&#34;KONG_ADMIN_ACCESS_LOG=/dev/stdout&#34;</span> <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>     -e <span style="color:#e6db74">&#34;KONG_PROXY_ERROR_LOG=/dev/stderr&#34;</span> <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>     -e <span style="color:#e6db74">&#34;KONG_ADMIN_ERROR_LOG=/dev/stderr&#34;</span> <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>     -e <span style="color:#e6db74">&#34;KONG_PROXY_LISTEN=0.0.0.0:8000, 0.0.0.0:8443 ssl&#34;</span> <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>     -e <span style="color:#e6db74">&#34;KONG_ADMIN_LISTEN=0.0.0.0:8001, 0.0.0.0:8444 ssl&#34;</span> <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>     -v /private/docker/volumes/kong/etc/kong/:/etc/kong/ <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>     -v /private/docker/volumes/kong/plugins/debug-plugin/:/usr/local/share/lua/5.1/kong/plugins/debug-plugin <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>     -p 80:8000 <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>     -p 8001:8001 <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>     kong:2.1.4-centos
+
+<span style="color:#75715e"># 下载默认配置</span>
+$ curl https://raw.githubusercontent.com/Kong/kong/master/kong.conf.default &gt; <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>	/private/docker/volumes/kong/etc/kong/kong.conf
+	
+<span style="color:#75715e"># 找到 plugins = bundled 打开注释，增加 debug-plugin 插件</span>
+$ vim /private/docker/volumes/kong/etc/kong/kong.conf
+plugins <span style="color:#f92672">=</span> bundled, debug-plugin
+
+<span style="color:#75715e"># 拷贝插件到 /private/docker/volumes/kong/plugins/debug-plugin</span>
+$ cp *.lua /private/docker/volumes/kong/plugins/debug-plugin
+
+<span style="color:#75715e"># 重启 kong</span>
+$ docker restart kong
+</code></pre></div><h2 id="faq">FAQ</h2>
+<h3 id="docker-logs-kong-发现报错的插件不存在">docker logs kong 发现报错的插件不存在</h3>
+<ul>
+<li>原因：kong 容器销毁重新生成，但是数据库的记录仍然是之前的</li>
+<li>打开 kong 所在的 postgres 数据库</li>
+<li>删除 <code>plugins</code> 表中 插件所在的行</li>
+<li><code>docker restart kong</code> 重启</li>
+</ul>
+<h2 id="read-more">Read More</h2>
+<ul>
+<li>
+  <a href="https://www.jianshu.com/p/abef41d85ec4">Kong插件开发向导</a></li>
+<li>
+  <a href="https://www.jianshu.com/p/bf7f7bfb0639">Kong插件开发工具包</a></li>
+</ul>
+</article>
+ 
+      
+
+      <footer class="book-footer">
+        
+  <div class="flex justify-between">
+
+
+
+
+
+  <div>
+    <a class="flex align-center" href="https://github.com/hello-world-example/Nginx/edit/master/HuGo/content/docs/Kong/Plugins/Dev-Environment.md" target="_blank" rel="noopener">
+      <img src="/Nginx/svg/edit.svg" class="book-icon" alt="Edit" />
+      <span>Edit this page</span>
+    </a>
+  </div>
+
+</div>
+
+ 
+        
+      </footer>
+
+      
+  
+  <div class="book-comments">
+
+</div>
+  
+ 
+
+      <label for="menu-control" class="hidden book-menu-overlay"></label>
+    </div>
+
+    
+    <aside class="book-toc">
+      
+  <nav id="TableOfContents">
+  <ul>
+    <li><a href="#开发环境搭建">开发环境搭建</a>
+      <ul>
+        <li><a href="#docker-方式">Docker 方式</a></li>
+        <li><a href="#faq">FAQ</a>
+          <ul>
+            <li><a href="#docker-logs-kong-发现报错的插件不存在">docker logs kong 发现报错的插件不存在</a></li>
+          </ul>
+        </li>
+        <li><a href="#read-more">Read More</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+
+ 
+    </aside>
+    
+  </main>
+
+  
+</body>
+
+</html>
+
+
+
+
+
+
+
+
+
+
+
+

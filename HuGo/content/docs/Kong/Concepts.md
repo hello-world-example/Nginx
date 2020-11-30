@@ -25,12 +25,23 @@
 
 
 
-- **Upstreams**：
-- **Target**：
-- **Services**：
 - **Route**：
-- **Consumer**：
-- **Plugins**：
+  - 定义匹配规则：Host、Header、Path 等
+  - 与 Service 绑定，匹配的每个请求都将代理到其关联的 Service 上
+
+- **Services**
+  - 服务的抽象，通过 url 与 upstream 或 IP 进行关联
+
+- **Upstreams**
+  - 同 Nginx 概念，服务实例的集合
+- **Target**
+  - 反向代理的目标地址
+  - 与 Upstreams 关联
+
+- **Consumer**
+  - 服务调用者
+- **Plugins**
+  - HTTP 请求/响应 生命周期中执行逻辑
 
 
 
@@ -128,3 +139,5 @@ $ curl -i --header "Host: baidu_and_bing.com" http://localhost/
 ## Read More
 
 - [Kong Getting Started Guide](https://docs.konghq.com/getting-started-guide/latest/overview/)
+- [Kong 网关工作原理及核心概念](https://www.lyafei.com/archives/236/)
+- [kong 配置 upstream 实现简单的负载均衡](https://www.cnblogs.com/sunhongleibibi/p/12035508.html)

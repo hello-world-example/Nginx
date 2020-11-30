@@ -4,10 +4,12 @@
 <head>
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="Kong 核心概念 模块层级  RESTful APIs  Admin API 接口等   Plugins  基于 Lua 开发，类似于拦截器 提供多用场景的插件 官方插件市场：https://docs.konghq.com/hub/   集群 &amp; 数据存储  支持 Postgres、Cassandra   OpenResty  Kong 的底层引擎 通过 lua 指令 提供请求生命周期的 Hooks   Nginx  功能概念   Upstreams： Target： Services： Route： Consumer： Plugins：  配置一个服务    Configuring a Service   Services  该服务会儿会被转发到：http://github.com
- $ curl -i -X POST \  --url http://localhost:8001/services/ \  --data &#39;name=service_github&#39; \  --data &#39;url=http://github."><meta property="og:title" content="" />
-<meta property="og:description" content="Kong 核心概念 模块层级  RESTful APIs  Admin API 接口等   Plugins  基于 Lua 开发，类似于拦截器 提供多用场景的插件 官方插件市场：https://docs.konghq.com/hub/   集群 &amp; 数据存储  支持 Postgres、Cassandra   OpenResty  Kong 的底层引擎 通过 lua 指令 提供请求生命周期的 Hooks   Nginx  功能概念   Upstreams： Target： Services： Route： Consumer： Plugins：  配置一个服务    Configuring a Service   Services  该服务会儿会被转发到：http://github.com
- $ curl -i -X POST \  --url http://localhost:8001/services/ \  --data &#39;name=service_github&#39; \  --data &#39;url=http://github." />
+<meta name="description" content="Kong 核心概念 模块层级  RESTful APIs  Admin API 接口等   Plugins  基于 Lua 开发，类似于拦截器 提供多用场景的插件 官方插件市场：https://docs.konghq.com/hub/   集群 &amp; 数据存储  支持 Postgres、Cassandra   OpenResty  Kong 的底层引擎 通过 lua 指令 提供请求生命周期的 Hooks   Nginx  功能概念    Route：
+ 定义匹配规则：Host、Header、Path 等 与 Service 绑定，匹配的每个请求都将代理到其关联的 Service 上    Services
+ 服务的抽象，通过 url 与 upstream 或 IP 进行关联    Upstreams"><meta property="og:title" content="" />
+<meta property="og:description" content="Kong 核心概念 模块层级  RESTful APIs  Admin API 接口等   Plugins  基于 Lua 开发，类似于拦截器 提供多用场景的插件 官方插件市场：https://docs.konghq.com/hub/   集群 &amp; 数据存储  支持 Postgres、Cassandra   OpenResty  Kong 的底层引擎 通过 lua 指令 提供请求生命周期的 Hooks   Nginx  功能概念    Route：
+ 定义匹配规则：Host、Header、Path 等 与 Service 绑定，匹配的每个请求都将代理到其关联的 Service 上    Services
+ 服务的抽象，通过 url 与 upstream 或 IP 进行关联    Upstreams" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://hello-world-example.github.io/Nginx/docs/Kong/Concepts/" />
 <meta property="article:modified_time" content="2020-11-25T20:41:10+08:00" />
@@ -87,6 +89,8 @@ https://github.com/alex-shpak/hugo-book
 <li>
   <a href="/Nginx/docs/Kong/Plugins/"><strong>Plugins..</strong></a>
 <ul>
+<li>
+  <a href="/Nginx/docs/Kong/Plugins/Dev-Environment/">开发环境准备</a></li>
 <li>
   <a href="/Nginx/docs/Kong/Plugins/http-log-extended/">http-log-extended</a></li>
 </ul>
@@ -196,12 +200,44 @@ https://github.com/alex-shpak/hugo-book
 <p>
   <img src="https://docs.konghq.com/assets/images/docs/getting-started-guide/Kong-GS-overview.png" alt="来源：https://docs.konghq.com/getting-started-guide/latest/overview/" /></p>
 <ul>
-<li><strong>Upstreams</strong>：</li>
-<li><strong>Target</strong>：</li>
-<li><strong>Services</strong>：</li>
-<li><strong>Route</strong>：</li>
-<li><strong>Consumer</strong>：</li>
-<li><strong>Plugins</strong>：</li>
+<li>
+<p><strong>Route</strong>：</p>
+<ul>
+<li>定义匹配规则：Host、Header、Path 等</li>
+<li>与 Service 绑定，匹配的每个请求都将代理到其关联的 Service 上</li>
+</ul>
+</li>
+<li>
+<p><strong>Services</strong></p>
+<ul>
+<li>服务的抽象，通过 url 与 upstream 或 IP 进行关联</li>
+</ul>
+</li>
+<li>
+<p><strong>Upstreams</strong></p>
+<ul>
+<li>同 Nginx 概念，服务实例的集合</li>
+</ul>
+</li>
+<li>
+<p><strong>Target</strong></p>
+<ul>
+<li>反向代理的目标地址</li>
+<li>与 Upstreams 关联</li>
+</ul>
+</li>
+<li>
+<p><strong>Consumer</strong></p>
+<ul>
+<li>服务调用者</li>
+</ul>
+</li>
+<li>
+<p><strong>Plugins</strong></p>
+<ul>
+<li>HTTP 请求/响应 生命周期中执行逻辑</li>
+</ul>
+</li>
 </ul>
 <h2 id="配置一个服务">配置一个服务</h2>
 <blockquote>
@@ -291,6 +327,10 @@ $ curl -i --header <span style="color:#e6db74">&#34;Host: baidu_and_bing.com&#34
 <ul>
 <li>
   <a href="https://docs.konghq.com/getting-started-guide/latest/overview/">Kong Getting Started Guide</a></li>
+<li>
+  <a href="https://www.lyafei.com/archives/236/">Kong 网关工作原理及核心概念</a></li>
+<li>
+  <a href="https://www.cnblogs.com/sunhongleibibi/p/12035508.html">kong 配置 upstream 实现简单的负载均衡</a></li>
 </ul>
 </article>
  

@@ -15,8 +15,9 @@
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>https://hello-world-example.github.io/Nginx/docs/Kong/Concepts/</guid>
-      <description>Kong 核心概念 模块层级  RESTful APIs  Admin API 接口等   Plugins  基于 Lua 开发，类似于拦截器 提供多用场景的插件 官方插件市场：https://docs.konghq.com/hub/   集群 &amp;amp; 数据存储  支持 Postgres、Cassandra   OpenResty  Kong 的底层引擎 通过 lua 指令 提供请求生命周期的 Hooks   Nginx  功能概念   Upstreams： Target： Services： Route： Consumer： Plugins：  配置一个服务    Configuring a Service   Services  该服务会儿会被转发到：http://github.com
- $ curl -i -X POST \  --url http://localhost:8001/services/ \  --data &amp;#39;name=service_github&amp;#39; \  --data &amp;#39;url=http://github.</description>
+      <description>Kong 核心概念 模块层级  RESTful APIs  Admin API 接口等   Plugins  基于 Lua 开发，类似于拦截器 提供多用场景的插件 官方插件市场：https://docs.konghq.com/hub/   集群 &amp;amp; 数据存储  支持 Postgres、Cassandra   OpenResty  Kong 的底层引擎 通过 lua 指令 提供请求生命周期的 Hooks   Nginx  功能概念    Route：
+ 定义匹配规则：Host、Header、Path 等 与 Service 绑定，匹配的每个请求都将代理到其关联的 Service 上    Services
+ 服务的抽象，通过 url 与 upstream 或 IP 进行关联    Upstreams</description>
     </item>
     
     <item>

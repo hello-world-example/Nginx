@@ -63,9 +63,13 @@ $ docker run -d --name kong \
      -e "KONG_ADMIN_ERROR_LOG=/dev/stderr" \
      -e "KONG_PROXY_LISTEN=0.0.0.0:8000, 0.0.0.0:8443 ssl" \
      -e "KONG_ADMIN_LISTEN=0.0.0.0:8001, 0.0.0.0:8444 ssl" \
+     -v /private/docker/volumes/kong/etc/kong/:/etc/kong/ \
      -p 80:8000 \
      -p 8001:8001 \
      kong:2.1.4-centos
+
+$ curl https://raw.githubusercontent.com/Kong/kong/master/kong.conf.default > \
+	/private/docker/volumes/kong/etc/kong/kong.conf
 ```
 
 

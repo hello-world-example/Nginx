@@ -11,11 +11,22 @@
     
     <item>
       <title></title>
+      <link>https://hello-world-example.github.io/Nginx/docs/Kong/Plugins/Dev-Environment/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://hello-world-example.github.io/Nginx/docs/Kong/Plugins/Dev-Environment/</guid>
+      <description>开发环境搭建  背景：
+  Lua 快速开始  LuaRocks 安装  创建一个 Rock  准备
+  Kong Docker 方式安装   Docker 方式   在 Kong Docker 方式安装 的基础上， 增加 volume 映射 /usr/local/share/lua/5.1/kong/plugins/debug-plugin 插件目录 debug-plugin 可替换为真实的插件名   $ docker run -d --name kong \  --network=kong-net \  -e &amp;#34;KONG_PG_HOST=kong-database&amp;#34; \  -e &amp;#34;KONG_PG_PORT=5432&amp;#34; \  -e &amp;#34;KONG_PG_USER=kong&amp;#34; \  -e &amp;#34;KONG_PG_PASSWORD=kong&amp;#34; \  -e &amp;#34;KONG_PG_DATABASE=postgres&amp;#34; \  -e &amp;#34;KONG_PG_SCHEMA=kong&amp;#34; \  -e &amp;#34;KONG_PROXY_ACCESS_LOG=/dev/stdout&amp;#34; \  -e &amp;#34;KONG_ADMIN_ACCESS_LOG=/dev/stdout&amp;#34; \  -e &amp;#34;KONG_PROXY_ERROR_LOG=/dev/stderr&amp;#34; \  -e &amp;#34;KONG_ADMIN_ERROR_LOG=/dev/stderr&amp;#34; \  -e &amp;#34;KONG_PROXY_LISTEN=0.</description>
+    </item>
+    
+    <item>
+      <title></title>
       <link>https://hello-world-example.github.io/Nginx/docs/Kong/Plugins/http-log-extended/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>https://hello-world-example.github.io/Nginx/docs/Kong/Plugins/http-log-extended/</guid>
-      <description>http-log-extended  该插件相比官方插件 http-log 增加了对 requestBody 和 responseBody 的输出 便于分析 请求体 和 响应信息，但是日志量会较大  安装插件 $ git clone https://github.com/Makcy/kong-plugin-http-log-extended.git $ cd kong-plugin-http-log-extended # 安装 $ luarocks make # 查看安装位置 $ cat `luarocks config --system-config` .. rocks_trees = { { name = &amp;#34;user&amp;#34;, root = home .. &amp;#34;/.luarocks&amp;#34; }; { name = &amp;#34;system&amp;#34;, root = &amp;#34;/usr/local&amp;#34; }; } .. $ ll /usr/local&amp;#34;/share/lua/5.1&amp;#34;/kong/plugins/http-log-extended/ # 修改 kong.conf $ vim /etc/kong/kong.conf # 老版 custom_plugins = http-log-extended # 新版 plugins = bundled, http-log-extended # 重启 kong 生效 $ kong stop &amp;amp;&amp;amp; kong start # 查看所有可用的插件 $ curl http://localhost:8001/plugins/enabled 删除插件 # 修改 kong.</description>
+      <description>http-log-extended  该插件相比官方插件 http-log 增加了对 requestBody 和 responseBody 的输出 便于分析 请求体 和 响应信息，但是日志量会较大  安装插件 $ git clone https://github.com/Makcy/kong-plugin-http-log-extended.git $ cd kong-plugin-http-log-extended # 安装 $ luarocks make # 查看安装位置 # $ cat `luarocks config --system-config` $ luarocks show kong-plugin-http-log-extended # 修改 kong.conf $ vim /etc/kong/kong.conf # 老版 custom_plugins = http-log-extended # 新版 plugins = bundled, http-log-extended # 重启 kong 生效 $ kong stop &amp;amp;&amp;amp; kong start # 查看所有可用的插件 $ curl http://localhost:8001/plugins/enabled 删除插件 # 修改 kong.</description>
     </item>
     
     <item>

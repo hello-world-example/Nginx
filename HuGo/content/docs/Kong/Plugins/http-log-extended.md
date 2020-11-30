@@ -19,14 +19,10 @@ $ cd kong-plugin-http-log-extended
 $ luarocks make
 
 # 查看安装位置
-$ cat `luarocks config --system-config`
-..
-rocks_trees = {
-   { name = "user", root = home .. "/.luarocks" };
-   { name = "system", root = "/usr/local" };
-}
-..
-$ ll /usr/local"/share/lua/5.1"/kong/plugins/http-log-extended/
+# $ cat `luarocks config --system-config`
+$ luarocks show kong-plugin-http-log-extended
+
+
 
 # 修改 kong.conf
 $ vim /etc/kong/kong.conf
@@ -35,8 +31,11 @@ custom_plugins = http-log-extended
 # 新版
 plugins = bundled, http-log-extended
 
+
+
 # 重启 kong 生效
 $ kong stop && kong start
+
 
 # 查看所有可用的插件
 $ curl http://localhost:8001/plugins/enabled
@@ -56,10 +55,6 @@ $ luarocks remove kong-plugin-http-log-extended
 # 重启 kong 生效
 $ kong stop && kong start
 ```
-
-
-
-## FAQ
 
 
 

@@ -21,6 +21,7 @@ headless: true
   - [Kong Admin UI]({{< relref "/docs/Kong/Kong-Admin-UI.md" >}})
   - [Kong 核心概念]({{< relref "/docs/Kong/Concepts.md" >}})
   - [**Plugins..**]({{< relref "/docs/Kong/Plugins/_index.md" >}})
+    - [开发环境准备]({{< relref "/docs/Kong/Plugins/Dev-Environment.md" >}})
     - [http-log-extended]({{< relref "/docs/Kong/Plugins/http-log-extended.md" >}})
 
   

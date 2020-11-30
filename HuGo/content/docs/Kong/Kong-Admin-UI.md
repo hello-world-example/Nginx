@@ -52,3 +52,5 @@ $ docker run -d \
 
 - [pantsel/konga](https://github.com/pantsel/konga)
 - [PGBI/kong-dashboard](https://github.com/PGBI/kong-dashboard)
+- 
+- [云原生微服务网关 Kong 和Kong 管理UI Konga快速安装攻略](https://mp.weixin.qq.com/s?__biz=MzU0MDEwMjgwNA==&mid=2247486052&idx=1&sn=ea0848accf49fe6065512c203aa1a1f5)
