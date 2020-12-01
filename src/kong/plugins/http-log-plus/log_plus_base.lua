@@ -66,9 +66,7 @@ end
 --- 扩充原始字段
 --- 原始格式： https://docs.konghq.com/2.2.x/pdk/kong.log/
 ---
-function _M.log_plus(kong, ngx, conf)
-    local KongLog = kong.log.serialize()
-
+function _M.log_plus(KongLog, ngx, conf)
     --- 自定义扩展信息
     local http_log_plus = ngx.ctx.http_log_plus or {}
 

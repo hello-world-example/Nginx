@@ -7,20 +7,16 @@
 --- docker restart kong
 --- docker logs kong -f --tail=50
 ---
-local log_plus_new = require "kong.plugins.http-log-plus.log_plus_new"
+local LogPlus = require "kong.plugins.http-log-plus.log_plus_base"
 
-local _M = {}
+local _M = LogPlus:extend()
 
-function _M.access(ngx, conf)
-    log_plus_new.access(ngx, conf)
-end
-
-function _M.body_filter(ngx, conf)
-    log_plus_new.body_filter(ngx, conf)
+function _M:new ()
 end
 
 function _M.log_plus(kong, ngx, conf)
-    return log_plus_new.log_plus(kong, ngx, conf)
+    local KongLog = kong.log.serialize()
+    return _M.super.log_plus(KongLog, ngx, conf)
 end
 
 return _M

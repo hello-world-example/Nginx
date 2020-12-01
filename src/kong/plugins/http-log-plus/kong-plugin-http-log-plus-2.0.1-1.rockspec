@@ -19,7 +19,8 @@ build = {
     ["kong.plugins.http-log-plus.handler"] = "handler.lua",
     ["kong.plugins.http-log-plus.schema"] = "schema.lua",
     -- 扩展
-    ["kong.plugins.http-log-plus.log_plus"] = "log_plus_new.lua",
+    ["kong.plugins.http-log-plus.log_plus"] = "log_plus.lua",
+    ["kong.plugins.http-log-plus.log_plus_base"] = "log_plus_base.lua",
     -- 兼容
     ["kong.plugins.http-log-plus.batch_queue"] = "batch_queue.lua"
   }

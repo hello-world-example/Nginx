@@ -20,8 +20,8 @@ build = {
     ["kong.plugins.http-log-plus.schema"] = "schema.old.lua",
     -- 扩展
     ["kong.plugins.http-log-plus.log_plus"] = "log_plus_old.lua",
+    ["kong.plugins.http-log-plus.log_plus_base"] = "log_plus_base.lua",
     -- 兼容
-    ["kong.plugins.http-log-plus.log_plus_base"] = "log_plus_new.lua",
     ["kong.plugins.http-log-plus.batch_queue"] = "batch_queue.lua"
   }
 }

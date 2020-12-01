@@ -17,14 +17,9 @@ end
 --- ： https://github.com/Kong/kong/blob/2.0.5/kong/plugins/http-log/handler.lua
 --- ： https://github.com/Kong/kong/blob/2.0.5/kong/plugins/log-serializers/basic.lua
 ---
-function _M:log_plus(kong, ngx, conf)
-    if not kong.log.serialize then
-        kong.log.serialize = function()
-            basic_serializer.serialize(ngx)
-        end
-    end
-
-    return self.super.log_plus(kong, ngx, conf)
+function _M.log_plus(kong, ngx, conf)
+    local KongLog = basic_serializer.serialize(ngx)
+    return _M.super.log_plus(KongLog, ngx, conf)
 end
 
 return _M
