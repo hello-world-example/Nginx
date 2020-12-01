@@ -1,14 +1,11 @@
-local typedefs = require "kong.db.schema.typedefs"
-
+-- https://docs.konghq.com/2.2.x/plugin-development/plugin-configuration/#describing-your-configuration-schema
 return {
     name = "http-log-plus",
     fields = {
-        { protocols = typedefs.protocols },
         { config = {
             type = "record",
             fields = {
-                -- NOTE: any field added here must be also included in the handler's get_queue_id method
-                { http_endpoint = typedefs.url({ required = true }) },
+                { http_endpoint ={ type = "string", required = true }, },
                 { method = { type = "string", default = "POST", one_of = { "POST", "PUT", "PATCH" }, }, },
                 { content_type = { type = "string", default = "application/json", one_of = { "application/json" }, }, },
                 { timeout = { type = "number", default = 10000 }, },

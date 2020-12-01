@@ -8,5 +8,7 @@ HuGo/themes/book
 .classpath
 .factorypath
 
+*.tar.gz
+
 # 私密信息不提交
 key.properties

@@ -16,6 +16,9 @@ local fmt = string.format
 local log_plus = require "kong.plugins.http-log-plus.log_plus"
 -- TODO 为了兼容老版本，低版本没有该文件
 local BatchQueue = require "kong.plugins.http-log-plus.batch_queue"
+-- TODO 继承方式
+local BasePlugin = require "kong.plugins.base_plugin"
+local HttpLogPlusHandler = BasePlugin:extend()
 
 local queues = {} -- one queue per unique plugin config
 local parsed_urls_cache = {}
@@ -137,23 +140,25 @@ local function get_queue_id(conf)
              conf.flush_timeout)
 end
 
+HttpLogPlusHandler.PRIORITY = 12
+HttpLogPlusHandler.VERSION = "2.0.1"
 
-local HttpLogHandler = {
-  PRIORITY = 12,
-  VERSION = "2.0.1",
-}
+-- TODO 兼容性代码
+function HttpLogPlusHandler:new()
+    HttpLogPlusHandler.super.new(self, "http-log-plus")
+end
 
 -- TODO 扩展的 access 生命周期
-function HttpLogHandler:access(conf)
+function HttpLogPlusHandler:access(conf)
     log_plus.access(ngx, conf)
 end
 
 -- TODO 扩展的 body_filter 生命周期
-function HttpLogHandler:body_filter(conf)
+function HttpLogPlusHandler:body_filter(conf)
     log_plus.body_filter(ngx, conf)
 end
 
-function HttpLogHandler:log(conf)
+function HttpLogPlusHandler:log(conf)
   -- TODO 放在最后
   -- local entry = cjson.encode(kong.log.serialize())
 
@@ -193,4 +198,4 @@ function HttpLogHandler:log(conf)
 
 end
 
-return HttpLogHandler
+return HttpLogPlusHandler
